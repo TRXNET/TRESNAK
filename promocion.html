@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Antiguedad ERNE</title>
+    <link rel="icon" type="image/x-icon" href="ep.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        :root {
+            --bg-main: #020617;
+            --bg-card: #0f172a;
+            --erne-green: #22c55e;
+            --erne-blue: #1d4ed8;
+            --erne-light: #e5e7eb;
+            --erne-muted: #9ca3af;
+            --danger: #f97373;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: 18px;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #1e293b 0, #020617 45%, #000 100%);
+            color: var(--erne-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(15,23,42,0.95), rgba(15,23,42,0.88));
+            border-radius: 18px;
+            border: 1px solid rgba(148,163,184,0.4);
+            box-shadow:
+                0 0 0 1px rgba(15,23,42,0.9),
+                0 20px 60px rgba(0,0,0,0.8);
+            padding: 20px 18px 22px;
+            backdrop-filter: blur(18px);
+        }
+
+        @media (min-width: 640px) {
+            .card {
+                padding: 24px 26px 26px;
+            }
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 999px;
+            border: 2px solid rgba(74,222,128,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 0, #4ade80, #16a34a 40%, #052e16 100%);
+            box-shadow: 0 0 22px rgba(34,197,94,0.8);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .brand-text-main {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .brand-text-sub {
+            font-size: 12px;
+            color: var(--erne-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148,163,184,0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--erne-muted);
+            background: radial-gradient(circle at top left, rgba(96,165,250,0.35), transparent 55%);
+        }
+
+        .main-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .main-subtitle {
+            font-size: 16px;
+            color: var(--erne-muted);
+            margin-bottom: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.8fr) minmax(0, 2.2fr);
+            gap: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .panel {
+            background: radial-gradient(circle at top left, rgba(37,99,235,0.25), rgba(15,23,42,0.96));
+            border-radius: 16px;
+            border: 1px solid rgba(37,99,235,0.4);
+            padding: 14px 14px 16px;
+            min-height: 320px;
+        }
+
+        .panel-secondary {
+            background: radial-gradient(circle at top left, rgba(34,197,94,0.25), rgba(15,23,42,0.96));
+            border: 1px solid rgba(34,197,94,0.45);
+        }
+
+        .panel-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--erne-muted);
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--erne-muted);
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 13px;
+            border-radius: 11px;
+            border: 1px solid rgba(148,163,184,0.7);
+            background: rgba(15,23,42,0.92);
+            color: var(--erne-light);
+            font-size: 18px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+                              linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+            background-position: calc(100% - 18px) calc(50% - 4px), calc(100% - 13px) calc(50% - 4px);
+            background-size: 7px 7px, 7px 7px;
+            background-repeat: no-repeat;
+        }
+
+        select:focus {
+            border-color: rgba(59,130,246,0.9);
+            box-shadow: 0 0 0 1px rgba(59,130,246,0.75);
+            background-color: rgba(15,23,42,1);
+        }
+
+        .helper {
+            font-size: 12px;
+            color: var(--erne-muted);
+            margin-top: 6px;
+        }
+
+        .proximo-box {
+            margin-top: 14px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: linear-gradient(120deg, rgba(34,197,94,0.14), rgba(15,23,42,0.98));
+            border: 1px solid rgba(34,197,94,0.7);
+        }
+
+        .proximo-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--erne-muted);
+            margin-bottom: 4px;
+        }
+
+        .proximo-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .proximo-note {
+            font-size: 11px;
+            color: var(--erne-muted);
+            margin-top: 2px;
+        }
+
+        .data-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(51,65,85,0.9);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-size: 13px;
+            color: var(--erne-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .data-value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .data-value.emphasis {
+            color: var(--erne-green);
+        }
+
+        /* dias antiguedad y nivel carrera: grandes con brillo */
+        .data-value-grande {
+            font-size: 24px;
+            font-weight: 800;
+            color: #4ade80;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+            animation: importe-glow-pulse 2s ease-in-out infinite;
+        }
+
+        .data-value-grande.sin-valor {
+            animation: none;
+            color: var(--erne-muted);
+            font-size: 18px;
+            font-weight: 600;
+            text-shadow: none;
+            opacity: 0.6;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(15,23,42,0.9);
+            border: 1px solid rgba(148,163,184,0.7);
+            font-size: 11px;
+            color: var(--erne-muted);
+            margin-top: 10px;
+        }
+
+        .pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--erne-green);
+            box-shadow: 0 0 8px rgba(34,197,94,0.9);
+        }
+
+        .footer-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .status-text {
+            font-size: 12px;
+            color: var(--erne-muted);
+        }
+
+        .status-text strong {
+            color: var(--erne-light);
+            font-weight: 500;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .btn {
+            position: relative;
+            border: none;
+            border-radius: 999px;
+            padding: 11px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 44px;
+        }
+
+        .btn span.icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            background: rgba(15,23,42,0.96);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #020617;
+            box-shadow:
+                0 10px 26px rgba(22,163,74,0.6),
+                0 0 0 1px rgba(21,128,61,0.9);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #eff6ff;
+            box-shadow:
+                0 10px 22px rgba(59,130,246,0.4);
+        }
+
+        .btn-web {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #eff6ff;
+            box-shadow:
+                0 10px 22px rgba(59,130,246,0.4);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        .error-text {
+            font-size: 12px;
+            color: var(--danger);
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-visible {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .status-text {
+                text-align: left;
+            }
+            .btn-group {
+                justify-content: flex-start;
+            }
+        }
+
+        /* === IMPORTE GRANDE: más grande, brillo y parpadeo === */
+        @keyframes importe-glow-pulse {
+            0%   { text-shadow: 0 0 8px rgba(34,197,94,0.6),  0 0 20px rgba(34,197,94,0.3);  opacity: 1; }
+            50%  { text-shadow: 0 0 22px rgba(74,222,128,1),  0 0 48px rgba(34,197,94,0.7),  0 0 80px rgba(34,197,94,0.3); opacity: 0.82; }
+            100% { text-shadow: 0 0 8px rgba(34,197,94,0.6),  0 0 20px rgba(34,197,94,0.3);  opacity: 1; }
+        }
+
+        .importe-grande {
+            font-size: 24px;
+            font-weight: 800;
+            color: #4ade80;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+            animation: importe-glow-pulse 2s ease-in-out infinite;
+        }
+
+        /* cuando muestra placeholder "--" no parpadea */
+        .importe-grande.sin-valor {
+            animation: none;
+            color: var(--erne-muted);
+            font-size: 18px;
+            font-weight: 600;
+            text-shadow: none;
+            opacity: 0.6;
+        }
+        /* === FIN IMPORTE === */
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div align="left"><img src="euskalpolizia txiki.jpg" alt="Euskal Polizia"></div>
+
+        <div class="header">
+             <div class="brand">
+            </div>
+        </div>
+
+        <div class="main-title">Datos promoción — niveles a 31/12/2027</div>
+        <div class="main-subtitle">
+        </div>
+
+        <div class="grid">
+            <!-- panel entrada datos -->
+            <div class="panel">
+                <div class="panel-title"></div>
+                <label for="promocionSelect">Promozioa</label>
+                <select id="promocionSelect">
+                    <option value="">Selecciona una promocion...</option>
+                    <option value="1">Promocion 1</option>
+                    <option value="2">Promocion 2</option>
+                    <option value="3">Promocion 3</option>
+                    <option value="4">Promocion 4</option>
+                    <option value="5">Promocion 5</option>
+                    <option value="6">Promocion 6</option>
+                    <option value="7">Promocion 7</option>
+                    <option value="8">Promocion 8</option>
+                    <option value="9">Promocion 9</option>
+                    <option value="10">Promocion 10</option>
+                    <option value="11A">Promocion 11A</option>
+                    <option value="11B">Promocion 11B</option>
+                    <option value="12">Promocion 12</option>
+                    <option value="13">Promocion 13</option>
+                    <option value="14">Promocion 14</option>
+                    <option value="15">Promocion 15</option>
+                    <option value="16">Promocion 16</option>
+                    <option value="17">Promocion 17</option>
+                    <option value="18">Promocion 18</option>
+                    <option value="19">Promocion 19</option>
+                    <option value="20">Promocion 20</option>
+                    <option value="21">Promocion 21</option>
+                    <option value="22">Promocion 22</option>
+                    <option value="23">Promocion 23</option>
+                    <option value="24">Promocion 24</option>
+                    <option value="25">Promocion 25</option>
+                    <option value="26">Promocion 26</option>
+                    <option value="27">Promocion 27</option>
+                    <option value="28">Promocion 28</option>
+                    <option value="29">Promocion 29</option>
+                    <option value="30">Promocion 30</option>
+                    <option value="31">Promocion 31</option>
+                    <option value="32">Promocion 32</option>
+                </select>
+                <div class="helper">
+                </div>
+
+                <div class="proximo-box">
+                    <div class="proximo-title">Proximo encuadramiento</div>
+                    <div id="proximoEncuadramiento" class="proximo-value">--</div>
+                    <div class="proximo-note"></div>
+                </div>
+
+                <div id="errorMsg" class="error-text">
+                    No se han encontrado datos para la promocion seleccionada.
+                </div>
+            </div>
+
+            <!-- panel resultados -->
+            <div class="panel panel-secondary">
+                <div class="panel-title"></div>
+
+                <div class="data-row">
+                    <div class="data-label">Fecha entrada/ salida Arkaute</div>
+                    <div id="periodo" class="data-value">--</div>
+                </div>
+
+                <div class="data-row">
+                    <div class="data-label">Dias por antiguedad</div>
+                    <div id="diasAntiguedad" class="data-value data-value-grande sin-valor">--</div>
+                </div>
+
+                <div class="data-row">
+                    <div class="data-label">Nivel carrera profesional</div>
+                    <div id="nivelCarrera" class="data-value data-value-grande sin-valor">--</div>
+                  <div class="data-row">
+    <div class="data-label">Importe nivel</div>
+    <div id="importeNivel" class="data-value importe-grande sin-valor">-- €</div>
+</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-actions">
+            <div class="status-text">
+            </div>
+            <div class="btn-group">
+                <button id="btnClear" type="button" class="btn btn-clear">
+                    </span>
+                    <span>Limpiar</span>
+                </button>
+                <button id="btnWeb" type="button" class="btn btn-web">
+                    </span>
+                    <span>Web ERNE</span>
+                </button>
+                <button id="btnPdf" type="button" class="btn btn-pdf">
+                    <span>Informe PDF</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    const tabla1 = {
+        "1":  { entrada: "01/02/1982", salida: "21/10/1982", dias: 9, nivel: 4 },
+        "2":  { entrada: "07/03/1983", salida: "19/10/1983", dias: 9, nivel: 4 },
+        "3":  { entrada: "14/11/1983", salida: "18/06/1984", dias: 9, nivel: 4 },
+        "4":  { entrada: "10/07/1984", salida: "31/03/1985", dias: 9, nivel: 4 },
+        "5":  { entrada: "08/07/1985", salida: "21/02/1986", dias: 8, nivel: 4 },
+        "6":  { entrada: "12/05/1986", salida: "12/02/1987", dias: 8, nivel: 4 },
+        "7":  { entrada: "18/11/1987", salida: "17/07/1988", dias: 7, nivel: 4 },
+        "8":  { entrada: "14/11/1988", salida: "28/07/1989", dias: 7, nivel: 4 },
+        "9":  { entrada: "26/02/1990", salida: "22/12/1990", dias: 7, nivel: 4 },
+        "10": { entrada: "23/09/1991", salida: "30/06/1992", dias: 6, nivel: 4 },
+        "11A":{ entrada: "23/03/1992", salida: "26/03/1993", dias: 6, nivel: 4 },
+        "11B":{ entrada: "01/06/1992", salida: "26/03/1993", dias: 6, nivel: 4 },
+        "12": { entrada: "20/04/1993", salida: "21/01/1994", dias: 6, nivel: 4 },
+        "13": { entrada: "07/02/1994", salida: "21/10/1994", dias: 5, nivel: 4 },
+        "14": { entrada: "02/11/1994", salida: "07/07/1995", dias: 5, nivel: 4 },
+        "15": { entrada: "02/10/1995", salida: "30/06/1996", dias: 5, nivel: 4 },
+        "16": { entrada: "01/12/2000", salida: "07/09/2001", dias: 3, nivel: 3 },
+        "17": { entrada: "04/03/2002", salida: "30/11/2002", dias: 3, nivel: 3 },
+        "18": { entrada: "02/06/2003", salida: "29/02/2004", dias: 2, nivel: 3 },
+        "19": { entrada: "03/10/2005", salida: "01/07/2006", dias: 2, nivel: 3 },
+        "20": { entrada: "02/10/2006", salida: "01/07/2007", dias: 2, nivel: 3 },
+        "21": { entrada: "29/10/2007", salida: "01/08/2008", dias: 2, nivel: 3 },
+        "22": { entrada: "03/03/2010", salida: "21/12/2010", dias: 0, nivel: 2 },
+        "23": { entrada: "01/03/2011", salida: "18/12/2011", dias: 0, nivel: 2 },
+        "24": { entrada: "15/12/2014", salida: "20/09/2015", dias: 0, nivel: 1 },
+        "25": { entrada: "16/11/2015", salida: "14/08/2016", dias: 0, nivel: 1 },
+        "26": { entrada: "16/10/2017", salida: "04/07/2018", dias: 0, nivel: 1 },
+        "27": { entrada: "08/10/2018", salida: "16/07/2019", dias: 0, nivel: 1 },
+        "28": { entrada: "09/09/2019", salida: "09/03/2020", dias: 0, nivel: 1 },
+        "29": { entrada: "23/02/2021", salida: "01/12/2021", dias: 0, nivel: 0 },
+        "30": { entrada: "09/02/2022", salida: "01/12/2022", dias: 0, nivel: 0 },
+        "31": { entrada: "13/01/2023", salida: "14/11/2023", dias: 0, nivel: 0 },
+        "32": { entrada: "09/05/2024", salida: "",             dias: 0, nivel: 0 }
+    };
+
+    const tablaN = {
+        "1": ["01/02/1987", "01/02/1993", "01/02/1999", "01/02/2007"],
+        "2": ["07/03/1988", "07/03/1994", "07/03/2000", "07/03/2008"],
+        "3": ["14/11/1988", "14/11/1994", "14/11/2000", "14/11/2008"],
+        "4": ["10/07/1989", "10/07/1995", "10/07/2001", "10/07/2009"],
+        "5": ["08/07/1990", "08/07/1996", "08/07/2002", "08/07/2010"],
+        "6": ["12/05/1991", "12/05/1997", "12/05/2003", "12/05/2011"],
+        "7": ["18/11/1992", "18/11/1998", "18/11/2004", "18/11/2012"],
+        "8": ["14/11/1993", "14/11/1999", "14/11/2005", "14/11/2013"],
+        "9": ["26/02/1995", "26/02/2001", "26/02/2007", "26/02/2015"],
+        "10": ["23/09/1996", "23/09/2002", "23/09/2008", "23/09/2016"],
+        "11A": ["23/03/1997", "23/03/2003", "23/03/2009", "23/03/2017"],
+        "11B": ["01/06/1997", "01/06/2003", "01/06/2009", "01/06/2017"],
+        "12": ["20/04/1998", "20/04/2004", "20/04/2010", "20/04/2018"],
+        "13": ["07/02/1999", "07/02/2005", "07/02/2011", "07/02/2019"],
+        "14": ["02/11/1999", "02/11/2005", "02/11/2011", "02/11/2019"],
+        "15": ["02/10/2000", "02/10/2006", "02/10/2012", "02/10/2020"],
+        "16": ["01/12/2005", "01/12/2011", "01/12/2017", "01/12/2025"],
+        "17": ["04/03/2007", "04/03/2013", "04/03/2019", "04/03/2027"],
+        "18": ["02/06/2008", "02/06/2014", "02/06/2020", "02/06/2028"],
+        "19": ["03/10/2010", "03/10/2016", "03/10/2022", "03/10/2030"],
+        "20": ["02/10/2011", "02/10/2017", "02/10/2023", "02/10/2031"],
+        "21": ["29/10/2012", "29/10/2018", "29/10/2024", "29/10/2032"],
+        "22": ["03/03/2015", "03/03/2021", "03/03/2027", "03/03/2035"],
+        "23": ["01/03/2016", "01/03/2022", "01/03/2028", "01/03/2036"],
+        "24": ["15/12/2019", "15/12/2025", "15/12/2031", "15/12/2039"],
+        "25": ["16/11/2020", "16/11/2026", "16/11/2032", "16/11/2040"],
+        "26": ["16/10/2022", "16/10/2028", "16/10/2034", "16/10/2042"],
+        "27": ["08/10/2023", "08/10/2029", "08/10/2035", "08/10/2043"],
+        "28": ["09/09/2024", "09/09/2030", "09/09/2036", "09/09/2044"],
+        "29": ["23/02/2026", "23/02/2032", "23/02/2038", "23/02/2046"],
+        "30": ["09/02/2027", "09/02/2033", "09/02/2039", "09/02/2047"],
+        "31": ["13/01/2028", "13/01/2034", "13/01/2040", "13/01/2048"],
+        "32": ["09/05/2029", "09/05/2035", "09/05/2041", "09/05/2049"]
+    };
+
+    function fechaDesdeTexto(fecha) {
+        const [dia, mes, anio] = fecha.split("/").map(Number);
+        return new Date(anio, mes - 1, dia);
+    }
+
+    // Consulta fijada al cierre de 2027: el nivel mostrado es el alcanzado a 31/12/2027.
+    const FECHA_REFERENCIA = new Date(2027, 11, 31);
+
+    function nivelEnFecha(promo, fechaReferencia = FECHA_REFERENCIA) {
+        const fechas = tablaN[promo] || [];
+        return fechas.filter(fecha => fechaDesdeTexto(fecha) <= fechaReferencia).length;
+    }
+
+    function proximoEncuadramiento(promo, fechaReferencia = FECHA_REFERENCIA) {
+        const fechas = tablaN[promo] || [];
+        return fechas.find(fecha => fechaDesdeTexto(fecha) > fechaReferencia) || "Nivel máximo";
+    }
+
+    const importesNivel = {
+        1: "1.588,31 €",
+        2: "2.199,19 €",
+        3: "3055,01 €",
+        4: "4.276,68 €"
+    };
+
+    const selPromocion = document.getElementById("promocionSelect");
+    const periodoEl = document.getElementById("periodo");
+    const diasAntiguedadEl = document.getElementById("diasAntiguedad");
+    const nivelCarreraEl = document.getElementById("nivelCarrera");
+    const importeNivelEl = document.getElementById("importeNivel");
+    const proximoEl = document.getElementById("proximoEncuadramiento");
+    const errorMsgEl = document.getElementById("errorMsg");
+    const btnPdf = document.getElementById("btnPdf");
+    const btnClear = document.getElementById("btnClear");
+    const btnWeb = document.getElementById("btnWeb");
+
+    function formatearPeriodo(datos) {
+        if (!datos) return "--";
+        if (datos.entrada && datos.salida) {
+            return datos.entrada + " - " + datos.salida;
+        }
+        if (datos.entrada && !datos.salida) {
+            return datos.entrada + " - ";
+        }
+        return "--";
+    }
+
+    function setImporte(valor) {
+        if (!valor || valor === "-- €") {
+            importeNivelEl.textContent = "-- €";
+            importeNivelEl.classList.add("sin-valor");
+        } else {
+            importeNivelEl.textContent = valor;
+            importeNivelEl.classList.remove("sin-valor");
+        }
+    }
+
+    function setGrande(el, valor, sinValorTexto) {
+        if (valor === null || valor === undefined || valor === "" || valor === "--") {
+            el.textContent = sinValorTexto;
+            el.classList.add("sin-valor");
+        } else {
+            el.textContent = String(valor);
+            el.classList.remove("sin-valor");
+        }
+    }
+
+    function actualizarVista() {
+        const promo = selPromocion.value;
+
+        if (!promo) {
+            periodoEl.textContent = "--";
+            setGrande(diasAntiguedadEl, null, "--");
+            setGrande(nivelCarreraEl, null, "--");
+            setImporte("-- €");
+            proximoEl.textContent = "--";
+            errorMsgEl.classList.remove("error-visible");
+            return;
+        }
+
+        const datos = tabla1[promo];
+        const nivelCalculado = nivelEnFecha(promo);
+        const proximo = proximoEncuadramiento(promo);
+
+        if (!datos) {
+            periodoEl.textContent = "--";
+            setGrande(diasAntiguedadEl, null, "--");
+            setGrande(nivelCarreraEl, null, "--");
+            setImporte("-- €");
+            proximoEl.textContent = proximo;
+            errorMsgEl.classList.add("error-visible");
+            return;
+        }
+
+        errorMsgEl.classList.remove("error-visible");
+
+        periodoEl.textContent = formatearPeriodo(datos);
+        setGrande(diasAntiguedadEl, typeof datos.dias === "number" ? datos.dias : null, "--");
+        setGrande(nivelCarreraEl, nivelCalculado, "--");
+        setImporte(importesNivel[nivelCalculado] || "-- €");
+
+        proximoEl.textContent = proximo || "Nivel Maximo";
+    }
+
+    selPromocion.addEventListener("change", actualizarVista);
+
+    btnClear.addEventListener("click", function () {
+        selPromocion.selectedIndex = 0;
+        periodoEl.textContent = "--";
+        setGrande(diasAntiguedadEl, null, "--");
+        setGrande(nivelCarreraEl, null, "--");
+        setImporte("-- €");
+        proximoEl.textContent = "--";
+        errorMsgEl.classList.remove("error-visible");
+    });
+
+    btnWeb.addEventListener("click", function () {
+        window.location.href = "https://www.erne.es";
+    });
+
+    btnPdf.addEventListener("click", function () {
+        const promo = selPromocion.value;
+        if (!promo) {
+            errorMsgEl.textContent = "Selecciona primero una promocion para generar el informe PDF.";
+            errorMsgEl.classList.add("error-visible");
+            return;
+        }
+
+        const datos = tabla1[promo];
+        const nivelCalculado = nivelEnFecha(promo);
+        const proximo = proximoEncuadramiento(promo);
+
+        if (!datos) {
+            errorMsgEl.textContent = "No hay datos de antiguedad para la promocion seleccionada.";
+            errorMsgEl.classList.add("error-visible");
+            return;
+        }
+
+        errorMsgEl.classList.remove("error-visible");
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFillColor(6, 11, 32);
+        doc.rect(0, 0, 210, 25, "F");
+
+        doc.setTextColor(226, 232, 240);
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text("ERNE - Informe de antiguedad (niveles a 31/12/2027)", 14, 16);
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.text("Promocion " + promo, 14, 22);
+
+        let y = 40;
+        doc.setTextColor(15, 23, 42);
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "bold");
+        doc.text("Resumen de datos", 14, y);
+        y += 8;
+
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        doc.text("Periodo entrada - salida: " + formatearPeriodo(datos), 14, y);
+        y += 7;
+        doc.text(
+            "Dias por antiguedad: " +
+            (typeof datos.dias === "number" ? String(datos.dias) : "0"),
+            14, y
+        );
+        y += 7;
+        doc.text(
+            "Nivel carrera profesional: " +
+            String(nivelCalculado),
+            14, y
+        );
+        y += 14;
+
+        doc.setFont("helvetica", "bold");
+        doc.text("Proximo encuadramiento", 14, y);
+        y += 8;
+
+        doc.setFont("helvetica", "normal");
+        doc.text("Fecha encuadramiento: " + proximo, 14, y);
+        y += 14;
+
+        doc.setFontSize(9);
+        doc.setTextColor(100, 116, 139);
+        doc.text("Informe generado automaticamente por ERNE.", 14, y);
+
+        doc.save("informe_antiguedad_promocion_" + promo + ".pdf");
+    });
+
+    actualizarVista();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="ep.ico">
+  <link rel="apple-touch-icon" href="ep.png">
+  <title>Calculadora Nocturnos y Festivos. Er.N.E.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, -webkit-system-font, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: linear-gradient(180deg, #0f172a 0%, #111827 45%, #1e3a8a 100%);
+      color: #111827;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 1200px;
+      padding: 18px 10px 30px;
+    }
+
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .brand-logo img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 0;
+      color: #e0f2fe;
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      font-size: 10px;
+      color: #c7d2fe;
+      background: rgba(37,99,235,0.14);
+      border: 1px solid rgba(96,165,250,0.6);
+      padding: 3px 9px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    p.sub {
+      margin: 6px 0 18px;
+      font-size: 12px;
+      color: #cbd5e1;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wrap {
+        padding: 14px 8px 22px;
+        max-width: 480px;
+      }
+      h1 {
+        font-size: 18px;
+      }
+      p.sub {
+        font-size: 11px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .ejercicio-card {
+        padding: 9px 8px 10px;
+      }
+      table th,
+      table td {
+        padding: 4px 2px;
+      }
+      .total-global-box {
+        padding: 10px 10px;
+      }
+      .btn-clear {
+        padding: 7px 12px;
+        font-size: 11px;
+      }
+    }
+
+    .ejercicio-card {
+      background: linear-gradient(180deg, #1f2937 0%, #111827 60%, #1d4ed8 100%);
+      border-radius: 14px;
+      padding: 10px 10px 12px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.45);
+      border: 1px solid rgba(96,165,250,0.35);
+      font-size: 13px;
+      color: #f1f5f9;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .ejercicio-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(37,99,235,0.45);
+    }
+
+    .ejercicio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+    .ejercicio-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #bfdbfe;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .ejercicio-total-label {
+      font-size: 8px;
+      text-transform: uppercase;
+      color: #9ca3af;
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    .ejercicio-total-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: #93c5fd;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .ejercicio-total-footer {
+      margin-top: 6px;
+      font-size: 10px;
+      color: #bfdbfe;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2px;
+    }
+
+    th, td {
+      padding: 5px 3px;
+      text-align: left;
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+    }
+
+    th {
+      font-weight: 500;
+      color: #cbd5e1;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    td.concepto {
+      font-weight: 500;
+      color: #e5e7eb;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+
+    input.unidades {
+      width: 70px;
+      padding: 4px 5px;
+      border-radius: 8px;
+      border: 1px solid #3b82f6;
+      font-size: 11px;
+      text-align: center;
+      background: #020817;
+      color: #e0f2fe;
+    }
+
+    input.unidades:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 2px rgba(96,165,250,0.35);
+    }
+
+    .tarifa, .importe {
+      font-variant-numeric: tabular-nums;
+      font-size: 10px;
+      color: #cbd5e1;
+    }
+
+    .importe {
+      font-weight: 600;
+      color: #93c5fd;
+    }
+
+    .total-global-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #1e3a8a, #111827);
+      color: #f9fafb;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.65);
+      border: 1px solid rgba(96,165,250,0.45);
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .total-global-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #cbd5e1;
+    }
+
+    .total-global-text {
+      font-size: 11px;
+      color: #e0e7ff;
+    }
+
+    .total-breakdown {
+      font-size: 10px;
+      color: #bfdbfe;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 2;
+    }
+
+    .total-global-value {
+      font-size: 22px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      color: #e0f2fe;
+      margin-left: auto;
+      align-self: flex-end;
+      z-index: 2;
+    }
+
+    .total-brand {
+      position: absolute;
+      left: 50%;
+      bottom: 4px;
+      transform: translateX(-50%);
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(148,163,253,0.10);
+      filter: blur(0.6px);
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .total-global-box {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .total-global-value {
+        font-size: 20px;
+      }
+      .total-brand {
+        font-size: 42px;
+        bottom: 2px;
+        letter-spacing: 0.18em;
+      }
+      .total-breakdown {
+        font-size: 10px;
+      }
+    }
+
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-clear {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #3b82f6;
+      color: #f9fafb;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(37,99,235,0.45);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.18s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .btn-clear:hover {
+      background: #2563eb;
+      box-shadow: 0 8px 22px rgba(59,130,246,0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-clear span.icon {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .btn-panel {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      background: #dc2626;
+      color: #f9fafb;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(220,38,38,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s ease;
+    }
+
+    .btn-panel:hover {
+      background: #b91c1c;
+      box-shadow: 0 8px 22px rgba(185,28,28,0.7);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+<div class="wrap"><br>
+  <div class="brand-header">
+    <div class>
+       <div><img src="euskalpolizia txiki.jpg" width="147" height="57" alt=""></div>
+    </div>
+    <h1>Calculadora Nocturnos y Festivos</h1>
+    <div class="badge">Er.N.E. - Herramienta informativa</div>
+  </div>
+
+  <p class="sub">
+    Introduce las unidades de cada concepto por ejercicio. Cada columna calcula su total y abajo veras la suma global y el detalle por ejercicio.
+  </p>
+
+  <div class="grid">
+    <div class="ejercicio-card" data-ejercicio="2021"></div>
+    <div class="ejercicio-card" data-ejercicio="2022"></div>
+    <div class="ejercicio-card" data-ejercicio="2023"></div>
+    <div class="ejercicio-card" data-ejercicio="2024"></div>
+  </div>
+
+  <div class="total-global-box">
+    <div>
+      <div class="total-global-label">Total acumulado</div>
+      <div class="total-global-text">
+        Suma de todos los ejercicios y conceptos introducidos.
+      </div>
+      <div class="total-breakdown">
+        <div id="total2021">2021: 0,00</div>
+        <div id="total2022">2022: 0,00</div>
+        <div id="total2023">2023: 0,00</div>
+        <div id="total2024">2024: 0,00</div>
+      </div>
+    </div>
+
+    <div class="total-brand">Er.N.E</div>
+
+    <div id="totalGlobal" class="total-global-value">0,00</div>
+  </div>
+
+  <div class="actions">
+    <button id="btnLimpiar" class="btn-clear" type="button">
+      <span class="icon"></span>
+      <span>Limpiar todo</span>
+    </button>
+
+    <button id="btnPDF" class="btn-clear" type="button">
+      <span class="icon"></span>
+      <span>Descargar PDF</span>
+    </button>
+
+    <a href="index.html" class="btn-panel">Panel</a>
+  </div>
+</div>
+
+<script>
+  const tarifas = {
+    2021: {
+      "NOCTURNO": 24.10,
+      "SABADO_8": 26.27,
+      "SABADO_12": 31.75,
+      "DOM_FEST_8": 29.55,
+      "DOM_FEST_12": 35.03
+    },
+    2022: {
+      "NOCTURNO": 24.94,
+      "SABADO_8": 27.19,
+      "SABADO_12": 32.88,
+      "DOM_FEST_8": 30.58,
+      "DOM_FEST_12": 36.29
+    },
+    2023: {
+      "NOCTURNO": 25.81,
+      "SABADO_8": 28.14,
+      "SABADO_12": 34.03,
+      "DOM_FEST_8": 31.65,
+      "DOM_FEST_12": 37.56
+    },
+    2024: {
+      "NOCTURNO": 26.46,
+      "SABADO_8": 28.84,
+      "SABADO_12": 34.88,
+      "DOM_FEST_8": 32.44,
+      "DOM_FEST_12": 38.50
+    }
+  };
+
+  function formateaEuro(valor) {
+    return valor.toFixed(2).replace('.', ',');
+  }
+
+  function crearTablaEjercicio(ejercicio) {
+    const card = document.querySelector('[data-ejercicio="' + ejercicio + '"]');
+    const tabla = document.createElement('table');
+
+    const encabezado = `
+      <div class="ejercicio-header">
+        <div class="ejercicio-title">Ejercicio ${ejercicio}</div>
+        <div>
+          <div class="ejercicio-total-label">Total ${ejercicio}</div>
+          <div class="ejercicio-total-value" data-total-ejercicio>0,00</div>
+        </div>
+      </div>`;
+
+    const cabecera = `
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Unid.</th>
+          <th>Tarifa</th>
+          <th>Imp.</th>
+        </tr>
+      </thead>`;
+
+    const cuerpo = document.createElement('tbody');
+    const conceptos = ["NOCTURNO","SABADO_8","SABADO_12","DOM_FEST_8","DOM_FEST_12"];
+
+    conceptos.forEach(c => {
+      const fila = document.createElement('tr');
+      fila.setAttribute('data-concepto', c);
+      fila.innerHTML = `
+        <td class="concepto">${c.replace('_',' ')}</td>
+        <td><input type="number" class="unidades" min="0" value="0"></td>
+        <td class="tarifa" data-tarifa></td>
+        <td class="importe" data-importe>0,00</td>`;
+      cuerpo.appendChild(fila);
+    });
+
+    tabla.innerHTML = cabecera;
+    tabla.appendChild(cuerpo);
+    card.innerHTML = encabezado;
+    card.appendChild(tabla);
+
+    const footer = document.createElement('div');
+    footer.className = 'ejercicio-total-footer';
+    footer.setAttribute('data-total-ejercicio-footer', '');
+    footer.textContent = 'Total ejercicio ' + ejercicio + ': 0,00';
+    card.appendChild(footer);
+  }
+
+  function initTarifas() {
+    document.querySelectorAll('.ejercicio-card').forEach(card => {
+      const ejercicio = card.getAttribute('data-ejercicio');
+      const tablaTarifas = tarifas[ejercicio] || {};
+
+      card.querySelectorAll('tbody tr').forEach(row => {
+        const concepto = row.getAttribute('data-concepto');
+        const tarifa = tablaTarifas[concepto];
+        const cell = row.querySelector('[data-tarifa]');
+        if (tarifa !== undefined) {
+          cell.textContent = formateaEuro(tarifa);
+          cell.dataset.valor = tarifa;
+        } else {
+          cell.textContent = '-';
+          cell.dataset.valor = '';
+        }
+      });
+    });
+  }
+
+  function recalcular() {
+    let totalGlobal = 0;
+    const totalesPorEjercicio = {};
+
+    document.querySelectorAll('.ejercicio-card').forEach(card => {
+      const ejercicio = card.getAttribute('data-ejercicio');
+      let totalEjercicio = 0;
+
+      card.querySelectorAll('tbody tr').forEach(row => {
+        const tarifa = parseFloat(row.querySelector('[data-tarifa]').dataset.valor || '0');
+        const unidades = parseFloat(row.querySelector('.unidades').value || '0');
+        const importe = (tarifa > 0 && unidades > 0) ? tarifa * unidades : 0;
+
+        row.querySelector('[data-importe]').textContent = formateaEuro(importe);
+        totalEjercicio += importe;
+      });
+
+      const totalEjercicioEl = card.querySelector('[data-total-ejercicio]');
+      if (totalEjercicioEl) {
+        totalEjercicioEl.textContent = formateaEuro(totalEjercicio);
+      }
+
+      const totalEjercicioFooter = card.querySelector('[data-total-ejercicio-footer]');
+      if (totalEjercicioFooter) {
+        totalEjercicioFooter.textContent = 'Total ejercicio ' + ejercicio + ': ' + formateaEuro(totalEjercicio);
+      }
+
+      totalesPorEjercicio[ejercicio] = totalEjercicio;
+      totalGlobal += totalEjercicio;
+    });
+
+    document.getElementById('totalGlobal').textContent = formateaEuro(totalGlobal);
+    document.getElementById('total2021').textContent = '2021: ' + formateaEuro(totalesPorEjercicio[2021] || 0);
+    document.getElementById('total2022').textContent = '2022: ' + formateaEuro(totalesPorEjercicio[2022] || 0);
+    document.getElementById('total2023').textContent = '2023: ' + formateaEuro(totalesPorEjercicio[2023] || 0);
+    document.getElementById('total2024').textContent = '2024: ' + formateaEuro(totalesPorEjercicio[2024] || 0);
+  }
+
+  function limpiarTodo() {
+    document.querySelectorAll('.unidades').forEach(input => {
+      input.value = 0;
+    });
+    recalcular();
+  }
+
+  function init() {
+    [2021, 2022, 2023, 2024].forEach(ejercicio => crearTablaEjercicio(ejercicio));
+    initTarifas();
+    recalcular();
+
+    document.addEventListener('input', e => {
+      if (e.target.classList.contains('unidades')) {
+        recalcular();
+      }
+    });
+
+    const btn = document.getElementById('btnLimpiar');
+    if (btn) {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        limpiarTodo();
+      });
+    }
+  }
+
+  init();
+</script>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Script PDF -->
+<script>
+  function limpiarSimbolos(txt) {
+    if (!txt) return "0,00";
+    let t = txt.toString();
+
+    // dejar solo digitos, comas y puntos
+    t = t.replace(/[^\d.,-]/g, "");
+
+    if (!t) return "0,00";
+
+    // si no hay coma y si hay punto, usar punto como decimal y convertir a coma
+    if (!t.includes(",") && t.includes(".")) {
+      const num = parseFloat(t) || 0;
+      return num.toFixed(2).replace(".", ",");
+    }
+
+    // si no hay ni coma ni punto, numero entero
+    if (!t.includes(",") && !t.includes(".")) {
+      const num = parseFloat(t) || 0;
+      return num.toFixed(2).replace(".", ",");
+    }
+
+    // si ya hay coma, recortar a dos decimales
+    let partes = t.split(",");
+    let entero = partes[0] || "0";
+    let dec = (partes[1] || "0").substring(0, 2);
+    dec = dec.padEnd(2, "0");
+    return entero + "," + dec;
+  }
+
+  function generarPDFCorporativo() {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert("No se ha podido cargar la libreria PDF.");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+
+    const blueDark = [10, 35, 85];
+    const blueMid  = [18, 58, 125];
+    const grayText = [40, 50, 70];
+
+    const totalGlobalTxt = limpiarSimbolos(document.getElementById("totalGlobal")?.innerText || "0,00");
+
+    const t2021 = limpiarSimbolos(document.getElementById("total2021")?.innerText || "0,00");
+    const t2022 = limpiarSimbolos(document.getElementById("total2022")?.innerText || "0,00");
+    const t2023 = limpiarSimbolos(document.getElementById("total2023")?.innerText || "0,00");
+    const t2024 = limpiarSimbolos(document.getElementById("total2024")?.innerText || "0,00");
+
+    doc.setFillColor(...blueDark);
+    doc.rect(0, 0, pageW, 32, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text("Er.N.E.", 14, 14);
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "normal");
+    doc.text("Calculadora nocturnos y festivos", 14, 24);
+
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0.3);
+    doc.line(14, 28, pageW - 14, 28);
+
+    const boxX = 12, boxY = 42, boxW = pageW - 24, boxH = 70;
+
+    doc.setFillColor(245, 248, 255);
+    doc.setDrawColor(...blueMid);
+    doc.setLineWidth(0.6);
+    doc.roundedRect(boxX, boxY, boxW, boxH, 3, 3, "FD");
+
+    doc.setTextColor(...blueMid);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Resumen de totales", boxX + 8, boxY + 10);
+
+    doc.setDrawColor(210, 220, 240);
+    doc.setLineWidth(0.3);
+    doc.line(boxX + 8, boxY + 14, boxX + boxW - 8, boxY + 14);
+
+    let y = boxY + 26;
+    const leftX = boxX + 8;
+
+    function pintarResumen(ej, valor) {
+      if (valor.startsWith("0,00")) return;
+      doc.setFontSize(11);
+      doc.setTextColor(...grayText);
+      doc.setFont("helvetica", "normal");
+      doc.text(ej + ": " + valor, leftX, y);
+      y += 10;
+    }
+
+    pintarResumen("2021", t2021);
+    pintarResumen("2022", t2022);
+    pintarResumen("2023", t2023);
+    pintarResumen("2024", t2024);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text("Total acumulado: " + totalGlobalTxt, leftX, y + 4);
+
+    let startY = boxY + boxH + 18;
+
+    doc.setTextColor(...blueMid);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Detalle por ejercicio (solo horas positivas)", 14, startY);
+
+    startY += 6;
+    doc.setDrawColor(210, 220, 240);
+    doc.line(14, startY, pageW - 14, startY);
+
+    startY += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(...grayText);
+    doc.setFont("helvetica", "normal");
+
+    const cards = document.querySelectorAll(".ejercicio-card");
+    cards.forEach(card => {
+      const ejercicio = card.getAttribute("data-ejercicio");
+      const totalEjTxt = limpiarSimbolos(card.querySelector("[data-total-ejercicio]")?.innerText || "0,00");
+
+      if (totalEjTxt.startsWith("0,00")) return;
+
+      doc.setFont("helvetica", "bold");
+      doc.text("Ejercicio " + ejercicio, 14, startY);
+      doc.setFont("helvetica", "normal");
+      doc.text("Total: " + totalEjTxt, 90, startY);
+
+
+      startY += 6;
+
+      const filas = Array.from(card.querySelectorAll("tbody tr"));
+      const filasPositivas = filas.filter(fila => {
+        const unidades = parseFloat(fila.querySelector(".unidades")?.value || "0");
+        return unidades > 0;
+      });
+
+      filasPositivas.forEach(fila => {
+        const concepto = fila.getAttribute("data-concepto") || "";
+        const unidades = fila.querySelector(".unidades")?.value || "0";
+        const tarifaTxt = limpiarSimbolos(fila.querySelector("[data-tarifa]")?.innerText || "0,00");
+        const importeTxt = limpiarSimbolos(fila.querySelector("[data-importe]")?.innerText || "0,00");
+
+        const linea = `${concepto.replace("_"," ")} | unid: ${unidades} | tarifa: ${tarifaTxt} | imp: ${importeTxt}`;
+        doc.text(linea, 18, startY);
+
+        startY += 5;
+        if (startY > pageH - 25) {
+          doc.addPage();
+          startY = 20;
+        }
+      });
+
+      startY += 4;
+    });
+
+    const noteY = pageH - 20;
+    doc.setTextColor(90, 100, 120);
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(9);
+    doc.text(
+      "Documento informativo basado en las tarifas internas por ejercicio.",
+      14,
+      noteY
+    );
+
+    doc.setTextColor(120, 130, 150);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    const fechaGen = new Date().toLocaleDateString("es-ES");
+    doc.text("Generado: " + fechaGen, 14, pageH - 10);
+    doc.text("Descargar PDF", pageW - 40, pageH - 10);
+
+    doc.save("nocturnos_festivos_resultado.pdf");
+  }
+
+  const btnPDF = document.getElementById("btnPDF");
+  if (btnPDF) {
+    btnPDF.addEventListener("click", generarPDFCorporativo);
+  }
+</script>
+
+</body>
+</html>
