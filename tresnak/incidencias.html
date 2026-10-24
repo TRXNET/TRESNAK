@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Partes diario ErNE</title>
+<link rel="icon" type="image/x-icon" href="ep.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  body {
+    font-family: system-ui,arial;
+    background:#0f172a;
+    color:#e5e7eb;
+    padding:12px;
+  }
+
+  .box {
+    background:#1e293b;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:20px;
+  }
+
+  h1, h2 {
+    margin-bottom:14px;
+    font-weight:600;
+  }
+
+  label{
+    font-size:13px;
+    color:#9ca3af;
+    text-transform:uppercase;
+    margin-bottom:4px;
+    display:block;
+  }
+
+  input,
+  textarea,
+  select{
+    width:90%;
+    margin:0 auto 12px auto;
+    display:block;
+    padding:8px 9px;
+    border-radius:8px;
+    background:#0f172a;
+    border:1px solid #475569;
+    color:#e5e7eb;
+    font-size:14px;
+  }
+
+  textarea {
+    min-height:100px;
+    resize:vertical;
+  }
+
+  button{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+    margin-bottom:10px;
+    color:#ffffff;
+  }
+
+  .save{background:#22c55e;}
+  .load{background:#3b82f6;}
+  .print{background:#0ea5e9;}
+  .delall{background:#ef4444;}
+  .edit{background:#f59e0b;}
+
+  .item{
+    background:#334155;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  .del{
+    background:#ef4444;
+    color:#fff;
+    border:none;
+    padding:6px 10px;
+    border-radius:6px;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  #detalleContenido p{
+    margin:4px 0;
+    font-size:14px;
+  }
+
+  #detalleContenido img{
+    max-width:100%;
+    border-radius:8px;
+  }
+
+  @media (max-width:480px){
+
+    body{
+      padding:8px;
+    }
+
+    .box{
+      padding:10px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:92%;
+      font-size:13px;
+      padding:7px 8px;
+    }
+
+    button{
+      padding:10px;
+      font-size:14px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<img src="euskalpolizia txiki.jpg" width="142" height="57" alt="Euskal Polizia">
+<h1>Partes de servicio diario</h1>
+
+<div class="box">
+
+  <label>Comisaria</label>
+  <input id="comisaria">
+
+  <label>Dia</label>
+  <input type="date" id="dia">
+
+  <label>Turno</label>
+  <select id="turno">
+    <option value="">Selecciona</option>
+    <option>M</option>
+    <option>T</option>
+    <option>N</option>
+    <option>OTRA</option>
+  </select>
+
+  <label>Companero</label>
+  <input id="companero">
+
+  <label>Zona</label>
+  <input id="zona">
+
+  <label>Incidencias</label>
+  <textarea id="incidencias"></textarea>
+
+  <label>Adjunto (foto o doc de pequeño tamaño)</label>
+  <input type="file" id="adjunto" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt">
+
+  <!-- clave interna para saber si estamos editando -->
+  <input type="hidden" id="editKey">
+
+  <button class="save" onClick="guardar()">Guardar en movil</button>
+</div>
+
+<div class="box">
+  <h2>Partes guardados</h2>
+  <div id="lista"></div>
+  <button class="load" onClick="cargarLista()">Ver archivo</button>
+</div>
+
+<div class="box" id="detalleBox" style="display:none;">
+  <h2>Detalle del parte</h2>
+  <div id="detalleContenido"></div>
+  <button id="btnEditar" class="edit" type="button" style="display:none;" onClick="editarParte()">Editar este parte</button>
+</div>
+
+<div class="box">
+  <h2>Informe e impresion</h2>
+
+  <label>Desde fecha</label>
+  <input type="date" id="desdeFecha">
+
+  <button class="print" onClick="imprimirIncidencias()">Imprimir</button>
+  <button class="delall" onClick="window.location.href='index.html'">Panel</button>
+</div>
+
+<script>
+// variables globales para modo edicion
+var editClaveActual = null;
+var editDatoActual = null;
+
+// obtiene las 3 primeras palabras
+function resumen3(txt){
+  return txt
+    .toLowerCase()
+    .replace(/[^\w\s]/gi,"")
+    .split(/\s+/)
+    .slice(0,3)
+    .join("_");
+}
+
+function clave(dia, incidencias){
+  return "parte_" + dia + "_" + resumen3(incidencias || "");
+}
+
+function limpiarModoEdicion(){
+  editClaveActual = null;
+  editDatoActual = null;
+  var hidden = document.getElementById("editKey");
+  if(hidden) hidden.value = "";
+}
+
+function guardarBaseEnLocalStorage(claveLS, data){
+  try{
+    localStorage.setItem(claveLS, JSON.stringify(data));
+    alert("Guardado como: " + claveLS);
+    cargarLista();
+    limpiarModoEdicion();
+  }catch(e){
+    console.error(e);
+    alert("No se ha podido guardar en el movil. Puede que el adjunto sea muy grande o que el navegador no permita guardar datos.");
+  }
+}
+
+function guardar(){
+  var base = {
+    comisaria: document.getElementById("comisaria").value,
+    dia: document.getElementById("dia").value,
+    turno: document.getElementById("turno").value,
+    companero: document.getElementById("companero").value,
+    zona: document.getElementById("zona").value,
+    incidencias: document.getElementById("incidencias").value
+  };
+
+  var inputAdj = document.getElementById("adjunto");
+  var file = inputAdj.files[0];
+
+  // clave existente si venimos de edicion
+  var claveExistente = editClaveActual || document.getElementById("editKey").value || null;
+
+  // sin adjunto nuevo
+  if(!file){
+    var dataGuardar = base;
+
+    // si estamos editando y habia adjunto antes, lo mantenemos
+    if(claveExistente && editDatoActual && editDatoActual.adjData){
+      dataGuardar.adjNombre = editDatoActual.adjNombre || "";
+      dataGuardar.adjTipo = editDatoActual.adjTipo || "";
+      dataGuardar.adjData = editDatoActual.adjData || "";
+    }
+
+    var k2 = claveExistente || clave(base.dia, base.incidencias);
+    guardarBaseEnLocalStorage(k2, dataGuardar);
+    inputAdj.value = "";
+    return;
+  }
+
+  // con adjunto nuevo
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var d = base;
+    d.adjNombre = file.name;
+    d.adjTipo = file.type || "";
+    d.adjData = ev.target.result; // dataURL
+
+    var k = claveExistente || clave(d.dia, d.incidencias);
+    guardarBaseEnLocalStorage(k, d);
+    inputAdj.value = "";
+  };
+
+  reader.onerror = function(){
+    alert("Ha fallado la lectura del archivo adjunto en el movil.");
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function cargarLista(){
+  const div = document.getElementById("lista");
+  div.innerHTML = "";
+  for(let i=0;i<localStorage.length;i++){
+    const k = localStorage.key(i);
+    if(k.startsWith("parte_")){
+      const fila = document.createElement("div");
+      fila.className = "item";
+
+      const texto = document.createElement("span");
+      texto.textContent = k;
+      texto.style.cursor = "pointer";
+      texto.onclick = ()=>verParte(k);
+
+      const btnDel = document.createElement("button");
+      btnDel.className = "del";
+      btnDel.textContent = "X";
+      btnDel.onclick = ()=>borrar(k);
+
+      fila.appendChild(texto);
+      fila.appendChild(btnDel);
+      div.appendChild(fila);
+    }
+  }
+}
+
+function verParte(k){
+  const d = JSON.parse(localStorage.getItem(k) || "null");
+  if(!d) return;
+
+  // guardamos para edicion
+  editClaveActual = k;
+  editDatoActual = d;
+  var hidden = document.getElementById("editKey");
+  if(hidden) hidden.value = k;
+
+  var detalleBox = document.getElementById("detalleBox");
+  var cont = document.getElementById("detalleContenido");
+  var btnEditar = document.getElementById("btnEditar");
+
+  var html = "";
+  html += "<p><strong>Comisaria:</strong> " + (d.comisaria || "") + "</p>";
+  html += "<p><strong>Dia:</strong> " + (d.dia || "") + "</p>";
+  html += "<p><strong>Turno:</strong> " + (d.turno || "") + "</p>";
+  html += "<p><strong>Companero:</strong> " + (d.companero || "") + "</p>";
+  html += "<p><strong>Zona:</strong> " + (d.zona || "") + "</p>";
+  html += "<p><strong>Incidencias:</strong><br>" + ((d.incidencias || "").replace(/\n/g,"<br>")) + "</p>";
+
+  if(d.adjData){
+    if(d.adjTipo && d.adjTipo.indexOf("image") === 0){
+      html += '<div style="margin-top:10px;"><strong>Adjunto:</strong><br>' +
+              '<img src="' + d.adjData + '" alt="adjunto">' +
+              '</div>';
+    } else {
+      html += '<div style="margin-top:10px;"><strong>Adjunto:</strong><br>' +
+              '<a href="' + d.adjData + '" target="_blank" download="' + (d.adjNombre || "adjunto") + '">Ver o descargar adjunto</a>' +
+              '</div>';
+    }
+  } else {
+    html += "<p><strong>Adjunto:</strong> (sin archivo)</p>";
+  }
+
+  cont.innerHTML = html;
+  detalleBox.style.display = "block";
+  if(btnEditar) btnEditar.style.display = "block";
+  detalleBox.scrollIntoView({behavior:"smooth"});
+}
+
+function editarParte(){
+  if(!editDatoActual) return;
+
+  var d = editDatoActual;
+
+  document.getElementById("comisaria").value = d.comisaria || "";
+  document.getElementById("dia").value = d.dia || "";
+  document.getElementById("turno").value = d.turno || "";
+  document.getElementById("companero").value = d.companero || "";
+  document.getElementById("zona").value = d.zona || "";
+  document.getElementById("incidencias").value = d.incidencias || "";
+
+  // el campo file no se puede rellenar por seguridad, pero si ya habia adjunto se mantiene al guardar
+  document.getElementById("adjunto").value = "";
+
+  var hidden = document.getElementById("editKey");
+  if(hidden) hidden.value = editClaveActual || "";
+
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function borrar(k){
+  if(confirm("Borrar incidencia?\n" + k)){
+    localStorage.removeItem(k);
+    if(editClaveActual === k){
+      limpiarModoEdicion();
+      var detalleBox = document.getElementById("detalleBox");
+      var cont = document.getElementById("detalleContenido");
+      var btnEditar = document.getElementById("btnEditar");
+      if(cont) cont.innerHTML = "";
+      if(detalleBox) detalleBox.style.display = "none";
+      if(btnEditar) btnEditar.style.display = "none";
+    }
+    cargarLista();
+  }
+}
+
+/*** IMPRIMIR: informe profesional con banda azul ***/
+function imprimirIncidencias(){
+  const desde = document.getElementById("desdeFecha").value;
+  let contenido = "";
+  let hayDatos = false;
+
+  for(let i=0;i<localStorage.length;i++){
+    const k = localStorage.key(i);
+    if(k.startsWith("parte_")){
+      const d = JSON.parse(localStorage.getItem(k));
+
+      if(!desde || d.dia >= desde){
+        hayDatos = true;
+        contenido += `
+          <div class="parte">
+            <p><strong>Dia:</strong> ${d.dia || ""}</p>
+            <p><strong>Zona:</strong> ${d.zona || ""}</p>
+            <p><strong>Turno:</strong> ${d.turno || ""}</p>
+            <p><strong>Companero:</strong> ${d.companero || ""}</p>
+            <p><strong>Incidencias:</strong><br>${(d.incidencias || "").replace(/\n/g,"<br>")}</p>
+          </div>
+          <hr>
+        `;
+      }
+    }
+  }
+
+  if(!hayDatos){
+    alert("No hay incidencias para la fecha seleccionada.");
+    return;
+  }
+
+  const vent = window.open("", "_blank");
+
+  vent.document.write(`<!DOCTYPE html>
+  <html>
+  <head>
+    <title>Informe ErNE</title>
+    <meta charset="UTF-8">
+    <style>
+      body{
+        font-family: system-ui,arial;
+        color:#111827;
+        padding:20px;
+      }
+
+      .cabecera{
+        background:#0a3da3;
+        color:#ffffff;
+        font-size:18px;
+        font-weight:700;
+        padding:14px 22px;
+        border-radius:6px;
+        margin-bottom:22px;
+      }
+
+      .subcabecera{
+        font-size:13px;
+        margin-top:4px;
+        font-weight:400;
+        opacity:0.9;
+      }
+
+      .parte{
+        margin-bottom:18px;
+        font-size:15px;
+        line-height:1.45;
+      }
+
+      hr{
+        border: none;
+        border-bottom:1px solid #d1d5db;
+        margin:18px 0;
+      }
+
+      @media print{
+        body{
+          padding:10mm;
+        }
+        .cabecera{
+          border-radius:0;
+          margin-top:0;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="cabecera">
+      ErNE Tresnak, partes diarios
+      <div class="subcabecera">
+        Informe de incidencias generadas desde la aplicacion de partes diarios.
+      </div>
+    </div>
+
+    ${contenido}
+
+  </body>
+  </html>`);
+
+  vent.document.close();
+  vent.focus();
+  vent.print();
+}
+
+/*** BORRAR PASADAS (no se usa desde la UI) ***/
+function borrarPasadas(){
+  const desde = document.getElementById("desdeFecha").value;
+  if(!desde){
+    alert("Selecciona una fecha");
+    return;
+  }
+
+  if(confirm("Borrar TODAS las incidencias anteriores a " + desde + " ?")){
+    for(let i=0;i<localStorage.length;i++){
+      const k = localStorage.key(i);
+      if(k.startsWith("parte_")){
+        const d = JSON.parse(localStorage.getItem(k));
+        if(d.dia < desde){
+          localStorage.removeItem(k);
+          i--;
+        }
+      }
+    }
+    cargarLista();
+    alert("Incidencias anteriores a " + desde + " borradas");
+  }
+}
+</script>
+
+</body>
+</html>

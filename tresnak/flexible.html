@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="ep.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <title>Turnos ErNE 3 Cadencias (ejercicio 2026)</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;padding:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      background: linear-gradient(180deg,#0b1220 0%,#0f1b33 45%,#102a5c 100%);
+      color:#e6f0ff;min-height:100vh;
+      display:flex;justify-content:center;align-items:flex-start;
+      padding: max(18px, env(safe-area-inset-top)) 10px max(28px, env(safe-area-inset-bottom));
+      -webkit-text-size-adjust: 100%;
+      touch-action: manipulation;
+    }
+    .wrap{width:100%;max-width:820px}
+    .panel{
+      background:
+        radial-gradient(1200px circle at -10% -20%, rgba(77,163,255,0.12), transparent 50%),
+        linear-gradient(160deg, rgba(8,36,80,0.96), rgba(3,18,40,0.92));
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,0.6);
+      padding:16px 14px;position:relative;overflow:hidden;
+    }
+    .panel::after{
+      content:"Er.N.E.";
+      position:absolute;right:-10px;top:10px;
+      font-weight:800;letter-spacing:0.22em;font-size:64px;
+      color:rgba(255,255,255,0.04);transform:rotate(90deg);
+      pointer-events:none;user-select:none;
+    }
+    h1{margin:6px 0 10px;font-size:1.35rem;text-align:center}
+    .sub{text-align:center;font-size:.95rem;color:#bcd4ff;margin-bottom:12px}
+    label{display:block;font-size:.95rem;margin:10px 0 6px;color:#d7e6ff}
+    input,select{
+      width:100%;padding:12px;font-size:1.05rem;color:#eaf2ff;
+      background: linear-gradient(180deg, rgba(14,35,76,.95), rgba(7,21,48,.95));
+      border:1px solid rgba(255,255,255,0.18);border-radius:12px;outline:none;
+      min-height:44px;
+    }
+    input:focus,select:focus{
+      border-color:#4da3ff;box-shadow:0 0 0 3px rgba(77,163,255,0.18);
+    }
+
+    /* CAJON DESPLEGABLE OSCURO */
+    select option{
+      background-color:#020617;
+      color:#e6f0ff;
+    }
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+    button{
+      padding:12px;font-size:1.05rem;font-weight:700;border-radius:12px;
+      border:1px solid rgba(255,255,255,0.18);color:white;
+      background: linear-gradient(180deg,#1b4aa0,#173a7e);
+      cursor:pointer;transition:transform .12s ease,filter .12s ease;
+      min-height:44px;
+    }
+    button:hover{transform:translateY(-1px);filter:brightness(1.06)}
+    button:active{transform:translateY(0)}
+    .ghost{background:transparent}
+
+    .pdf-btn{
+      background: linear-gradient(180deg,#0ea5e9,#0369a1);
+    }
+
+    .panel-btn{
+      background: linear-gradient(180deg,#ef4444,#b91c1c);
+      box-shadow:0 8px 18px rgba(248,113,113,0.45);
+    }
+
+    .result{
+      margin-top:14px;padding:12px;border-radius:12px;
+      background: rgba(6,18,40,0.8);
+      border:1px dashed rgba(255,255,255,0.18);
+      font-size:1.15rem;line-height:1.45;display:none;
+    }
+    .pill{
+      display:inline-block;padding:3px 8px;border-radius:999px;
+      background: rgba(77,163,255,0.15);
+      border:1px solid rgba(77,163,255,0.35);
+      font-weight:700;margin-left:6px;
+    }
+    .tiny{font-size:.9rem;color:#bcd4ff;margin-top:8px}
+
+    .cal-wrap{
+      margin-top:12px;
+      background:rgba(5,14,30,0.75);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:16px;padding:12px;
+    }
+    .cal-head{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:8px;gap:8px;flex-wrap:wrap;
+    }
+    .cal-title{font-size:1.15rem;font-weight:800}
+    .legend{display:flex;gap:8px;flex-wrap:wrap;font-size:.85rem;color:#cfe0ff}
+    .legend .dot{
+      display:inline-block;width:14px;height:14px;border-radius:4px;
+      margin-right:4px;vertical-align:middle;border:1px solid rgba(255,255,255,0.35);
+    }
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    .dow{text-align:center;font-weight:700;color:#cfe0ff;font-size:.9rem;padding:6px 0}
+    .day{
+      min-height:54px;border-radius:10px;border:1px solid rgba(255,255,255,0.10);
+      display:flex;flex-direction:column;justify-content:space-between;
+      padding:6px;cursor:pointer;user-select:none;
+      transition:transform .08s ease,filter .08s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .day:hover{transform:translateY(-1px);filter:brightness(1.05)}
+    .num{font-size:1rem;font-weight:800;line-height:1}
+    .code{
+      font-size:.8rem;font-weight:800;opacity:.9;align-self:flex-end;
+      padding:1px 6px;border-radius:6px;background:rgba(0,0,0,0.15);
+    }
+
+    /* COLORES NUEVOS:
+       Azul = Mañana
+       Naranja = Tarde
+       Blanco = Libre
+    */
+    .libre{background:#f8fafc;color:#0b1220}
+    .manana{background:#93c5fd;color:#0b1220}  /* azul */
+    .tarde{background:#f59e0b;color:#111}     /* naranja */
+    .muted{opacity:.35;pointer-events:none}
+
+    /* Bloques de botones bajo el resultado */
+    .btns-block{
+      margin-top:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .btn-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn-row button{
+      flex:1;
+    }
+
+    @media (max-width:520px){
+      .row{grid-template-columns:1fr}
+      .panel::after{font-size:52px}
+      .day{min-height:48px}
+      .btn-row button{flex:1 1 100%;}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="panel">
+    <div align="center">
+      <img src="euskalpolizia txiki.jpg" width="142" height="57" alt="Euskal Polizia">
+      <h1>Turnos 3 Cadencias</h1>
+    </div>
+
+    <div class="sub">
+      <p>Cadencia 5-2 / 7 / 7 (ejercicio 2026)</p>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="queryDate">Fecha a consultar</label>
+        <input id="queryDate" type="date" inputmode="numeric"
+               min="2026-01-01" max="2026-12-31" />
+      </div>
+      <div>
+        <label for="cadence">Cadencia</label>
+        <select id="cadence">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cal-wrap">
+      <div class="cal-head">
+        <div id="calTitle" class="cal-title">Mes</div>
+        <div class="legend">
+          <span><i class="dot" style="background:#f8fafc"></i>Libre (L)</span>
+          <span><i class="dot" style="background:#93c5fd"></i>Mañana (M)</span>
+          <span><i class="dot" style="background:#f59e0b"></i>Tarde (T)</span>
+        </div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="tiny"></div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="out" class="result"></div>
+
+    <!-- BOTONES BAJO EL RESULTADO -->
+    <div class="btns-block">
+      <button id="clearBtn" class="ghost" type="button">Limpiar</button>
+
+      <div class="btn-row">
+        <button id="pdfBtn" class="pdf-btn" type="button">Descargar PDF</button>
+        <button class="panel-btn" type="button" onclick="window.location.href='index.html'">
+          Panel
+        </button>
+      </div>
+    </div>
+
+    <div class="tiny" style="margin-top:10px;">
+      Exclusivo calendario 2026
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const queryDateEl = document.getElementById("queryDate");
+  const cadenceEl   = document.getElementById("cadence");
+  const outEl       = document.getElementById("out");
+  const calGridEl   = document.getElementById("calGrid");
+  const calTitleEl  = document.getElementById("calTitle");
+
+  // BASE: lunes 29/12/2025 (encaja con las láminas 2026)
+  const BASE_DATE = new Date("2025-12-29T00:00:00");
+
+  // CICLO 21 días (3 semanas) 5-2 / 7 / 7
+  // Orden (según las láminas): 5 Tarde, 2 Libre, 7 Mañana, 7 Libre
+  const CYCLE = [
+    "Tarde","Tarde","Tarde","Tarde","Tarde",
+    "Libre","Libre",
+    "Mañana","Mañana","Mañana","Mañana","Mañana","Mañana","Mañana",
+    "Libre","Libre","Libre","Libre","Libre","Libre","Libre"
+  ];
+
+  // Desfase por cadencia (A, B, C)
+  // A = 0, B = +7, C = +14
+  const CADENCE_OFFSET = { A:0, B:7, C:14 };
+
+  const msDay = 24*60*60*1000;
+  const mod = (n,m) => ((n%m)+m)%m;
+
+  function normalizaTexto(txt){
+    if(txt == null) return "";
+    return txt.toString()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function diffDays(d1, d2){
+    const a = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+    const b = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+    return Math.floor((a - b)/msDay);
+  }
+
+  function getTurnoForDate(date, cadence){
+    const days = diffDays(date, BASE_DATE);
+    const pos  = mod(days + CADENCE_OFFSET[cadence], 21);
+    return { turno: CYCLE[pos] };
+  }
+
+  function turnoToClass(turno){
+    switch(turno){
+      case "Mañana": return "manana";
+      case "Tarde":  return "tarde";
+      default:       return "libre";
+    }
+  }
+
+  function turnoToLetter(turno){
+    switch(turno){
+      case "Mañana": return "M";
+      case "Tarde":  return "T";
+      default:       return "L";
+    }
+  }
+
+  function showResult(date, cadence){
+    const all = ["A","B","C"].map(c => ({
+      c,
+      turno: getTurnoForDate(date, c).turno
+    }));
+    const chosen = all.find(x => x.c === cadence);
+    const rest   = all.filter(x => x.c !== cadence);
+
+    outEl.style.display = "block";
+    outEl.innerHTML = `
+      El <b>${normalizaTexto(date.toLocaleDateString("es-ES"))}</b> la <b>Cadencia ${cadence}</b> está de:
+      <span class="pill">${normalizaTexto(chosen.turno)}</span>
+      <div style="margin-top:8px;font-size:1rem;line-height:1.35;">
+        Resto de cadencias:<br/>
+        ${rest.map(r => `Cadencia ${r.c} -> <b>${normalizaTexto(r.turno)}</b>`).join("<br/>")}
+      </div>
+    `;
+  }
+
+  function fechaValida2026(date){
+    return date instanceof Date && !isNaN(date) && date.getFullYear() === 2026;
+  }
+
+  function avisoFuera2026(){
+    outEl.style.display="block";
+    outEl.textContent="Solo se permiten fechas del ejercicio 2026.";
+  }
+
+  function renderCalendar(){
+    calGridEl.innerHTML = "";
+    if(!queryDateEl.value){
+      calTitleEl.textContent = "Mes (elige fecha)";
+      outEl.style.display="none";
+      return;
+    }
+
+    const q = new Date(queryDateEl.value);
+    if(!fechaValida2026(q)){
+      calTitleEl.textContent = "Mes (solo 2026)";
+      avisoFuera2026();
+      return;
+    }
+
+    const cChosen = cadenceEl.value;
+    showResult(q, cChosen);
+
+    const year  = q.getFullYear();
+    const month = q.getMonth();
+
+    const monthName = normalizaTexto(q.toLocaleDateString("es-ES", {month:"long", year:"numeric"}));
+    calTitleEl.textContent = monthName.charAt(0).toUpperCase()+monthName.slice(1);
+
+    const dows = ["L","M","X","J","V","S","D"];
+    dows.forEach(d=>{
+      const el=document.createElement("div");
+      el.className="dow"; el.textContent=d;
+      calGridEl.appendChild(el);
+    });
+
+    const first = new Date(year, month, 1);
+    const last  = new Date(year, month+1, 0);
+    const daysInMonth = last.getDate();
+    const firstDow = mod(first.getDay()+6,7);
+
+    for(let i=0;i<firstDow;i++){
+      const blank=document.createElement("div");
+      blank.className="day muted";
+      calGridEl.appendChild(blank);
+    }
+
+    for(let day=1; day<=daysInMonth; day++){
+      const date = new Date(year, month, day);
+
+      const cadNow = cadenceEl.value;
+      const infoNow = getTurnoForDate(date, cadNow);
+      const cls = turnoToClass(infoNow.turno);
+      const letter = turnoToLetter(infoNow.turno);
+
+      const cell=document.createElement("div");
+      cell.className = `day ${cls}`;
+      cell.innerHTML = `
+        <div class="num">${day}</div>
+        <div class="code">${letter}</div>
+      `;
+
+      cell.addEventListener("click", ()=>{
+        const c = cadenceEl.value;
+        showResult(date, c);
+      });
+
+      calGridEl.appendChild(cell);
+    }
+  }
+
+  ["change","input"].forEach(evt=>{
+    queryDateEl.addEventListener(evt, renderCalendar);
+    cadenceEl.addEventListener(evt, renderCalendar);
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", ()=>{
+    queryDateEl.value="";
+    cadenceEl.value="A";
+    outEl.style.display="none"; outEl.innerHTML="";
+    calGridEl.innerHTML=""; calTitleEl.textContent="Mes";
+  });
+
+  renderCalendar();
+
+  document.getElementById("pdfBtn").addEventListener("click", () => {
+    if(!queryDateEl.value){
+      outEl.style.display="block";
+      outEl.textContent="Primero elige una fecha para sacar el PDF.";
+      return;
+    }
+    const date = new Date(queryDateEl.value);
+    if(!fechaValida2026(date)){
+      avisoFuera2026();
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit:"pt", format:"a4" });
+
+    const cadence = cadenceEl.value;
+    const monthName = normalizaTexto(date.toLocaleDateString("es-ES", {month:"long", year:"numeric"}));
+    const monthTitle = monthName.charAt(0).toUpperCase()+monthName.slice(1);
+    const info = getTurnoForDate(date, cadence);
+
+    const COLORS = {
+      libre:  [248,250,252],
+      manana: [147,197,253],
+      tarde:  [245,158,11]
+    };
+
+    doc.setFillColor(11,18,32);
+    doc.rect(0,0,595,842,"F");
+
+    doc.setTextColor(230,240,255);
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(34);
+    doc.text("Er.N.E.", 60, 110);
+    doc.setFontSize(18);
+    doc.setFont("helvetica","normal");
+    doc.text("Turnos 3 Cadencias - ejercicio 2026", 60, 145);
+
+    doc.setFontSize(14);
+    doc.text(`Cadencia: ${cadence}`, 60, 195);
+    doc.text(`Fecha consultada: ${normalizaTexto(date.toLocaleDateString("es-ES"))}`, 60, 220);
+    doc.text(`Turno: ${normalizaTexto(info.turno)}`, 60, 245);
+
+    doc.setDrawColor(77,163,255);
+    doc.setLineWidth(2);
+    doc.line(60, 270, 535, 270);
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(16);
+    doc.text(`Calendario de ${monthTitle}`, 60, 305);
+
+    const legendY = 330;
+    const legendItems = [
+      {label:"Libre (L)",  key:"libre"},
+      {label:"Mañana (M)", key:"manana"},
+      {label:"Tarde (T)",  key:"tarde"},
+    ];
+    let lx = 60;
+    doc.setFontSize(11);
+    doc.setFont("helvetica","normal");
+    legendItems.forEach(it=>{
+      const c = COLORS[it.key];
+      doc.setFillColor(...c);
+      doc.rect(lx, legendY-10, 14, 14, "F");
+      doc.setTextColor(230,240,255);
+      doc.text(it.label, lx+20, legendY);
+      lx += 120;
+    });
+
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const first = new Date(year, month, 1);
+    const last  = new Date(year, month+1, 0);
+    const daysInMonth = last.getDate();
+    const firstDow = mod(first.getDay()+6,7);
+
+    const gridX = 60, gridY = 360;
+    const cellW = 68, cellH = 48;
+    const headers = ["L","M","X","J","V","S","D"];
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(11);
+    headers.forEach((h,i)=>{
+      doc.setTextColor(230,240,255);
+      doc.text(h, gridX + i*cellW + 26, gridY);
+    });
+
+    let y = gridY + 12;
+    let col = 0;
+
+    for(let i=0;i<firstDow;i++){
+      col++;
+      if(col===7){ col=0; y+=cellH; }
+    }
+
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(12);
+
+    for(let d=1; d<=daysInMonth; d++){
+      const current = new Date(year, month, d);
+      const t = getTurnoForDate(current, cadence).turno;
+      const cls = turnoToClass(t);
+      const c = COLORS[cls];
+
+      const cx = gridX + col*cellW;
+      const cy = y;
+
+      doc.setFillColor(...c);
+      doc.rect(cx, cy, cellW-4, cellH-4, "F");
+
+      // texto oscuro en todos (azul claro / blanco / naranja)
+      doc.setTextColor(11,18,32);
+      doc.text(String(d), cx+8, cy+18);
+
+      doc.setFontSize(9);
+      doc.text(turnoToLetter(t), cx+cellW-18, cy+cellH-10);
+      doc.setFontSize(12);
+
+      col++;
+      if(col===7){
+        col=0;
+        y+=cellH;
+      }
+    }
+
+    doc.save(`Turnos_Cadencia_${cadence}_${year}-${month+1}.pdf`);
+  });
+
+})();
+</script>
+</body>
+</html>

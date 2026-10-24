@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="ep.ico">
+  <title>Calculadora Gratificaciones ErNE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, -webkit-system-font, sans-serif;
+      background: linear-gradient(180deg, #0f172a 0%, #111827 45%, #1e3a8a 100%);
+      color: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      font-size: 17px; /* base mas grande */
+      line-height: 1.5;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px 12px 32px;
+    }
+
+    .brand-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .brand-logo img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin: 0;
+      color: #e0f2fe;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      font-size: 12px;
+      color: #c7d2fe;
+      background: rgba(37,99,235,0.14);
+      border: 1px solid rgba(96,165,250,0.6);
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    p.sub {
+      margin: 8px 0 20px;
+      font-size: 15px;
+      color: #cbd5e1;
+      text-align: center;
+    }
+
+    .card {
+      background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+      border-radius: 18px;
+      padding: 16px 14px 20px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.55);
+      border: 1px solid rgba(96,165,250,0.32);
+      color: #e5e7eb;
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: 600;
+      color: #bfdbfe;
+    }
+
+    select {
+      margin-top: 6px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #3b82f6;
+      background: #020817;
+      color: #e5e7eb;
+      font-size: 17px;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(15,23,42,0.55);
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.35);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 16px;
+    }
+
+    th, td {
+      padding: 9px 5px;
+      border-bottom: 1px solid rgba(148,163,184,0.4);
+      text-align: left;
+    }
+
+    th {
+      font-weight: 600;
+      color: #9ca3af;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    td.tipo {
+      font-weight: 600;
+      color: #bfdbfe;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+
+    input.horas {
+      width: 90px;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid #4b5563;
+      background: #020817;
+      color: #e5e7eb;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    input.horas:focus {
+      outline: none;
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.35);
+    }
+
+    .tarifa, .importe {
+      font-variant-numeric: tabular-nums;
+      font-size: 15px;
+      color: #cbd5e1;
+    }
+
+    .importe {
+      font-weight: 700;
+      color: #93c5fd;
+    }
+
+    .total-box {
+      margin-top: 18px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent),
+                  #020817;
+      border: 1px solid rgba(75,85,99,0.9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .total-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #9ca3af;
+    }
+
+    .total-values {
+      margin-left: auto;
+      text-align: right;
+      z-index: 2;
+    }
+
+    .total-euros {
+      font-size: 26px;
+      font-weight: 800;
+      color: #22c55e;
+    }
+
+    .total-horas {
+      font-size: 15px;
+      color: #e5e7eb;
+    }
+
+    .total-brand {
+      position: absolute;
+      left: 50%;
+      bottom: -4px;
+      transform: translateX(-50%);
+      font-size: 58px;
+      font-weight: 800;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(148,163,253,0.1);
+      filter: blur(0.5px);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      z-index: 1;
+    }
+
+    .actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-clear {
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: none;
+      background: #3b82f6;
+      color: #f9fafb;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(37,99,235,0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: all 0.18s ease;
+    }
+
+    .btn-clear:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+    }
+
+    .btn-clear span.icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* BOTÓN ROJO PANEL */
+    .btn-panel {
+      background: #ef4444;
+      box-shadow: 0 6px 16px rgba(239,68,68,0.55);
+    }
+    .btn-panel:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 600px) {
+      body {
+        font-size: 16px;
+      }
+      .wrap {
+        padding: 14px 8px 22px;
+        max-width: 440px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      .card {
+        padding: 12px 10px 14px;
+      }
+      th, td {
+        padding: 6px 3px;
+      }
+      .total-euros {
+        font-size: 24px;
+      }
+      .total-brand {
+        font-size: 42px;
+      }
+      .btn-clear {
+        padding: 8px 14px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand-header">
+    <div class>
+      <div align="left"><img src="euskalpolizia txiki.jpg" alt="Euskal Polizia"></div>
+    </div>
+    <h1>Calculadora Gratificaciones</h1>
+    <div class="badge">ErNE - Herramienta informativa</div>
+  </div>
+
+  <p class="sub">
+   
+  </p>
+
+  <div class="card">
+    <div>
+      <label for="categoria">Categoria</label><br>
+      <select id="categoria">
+        <option value="AGENTE">Agente</option>
+        <option value="AGENTE_1">Agente 1</option>
+        <option value="SUBOFICIAL">Suboficial</option>
+        <option value="OFICIAL">Oficial</option>
+      </select>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo hora</th>
+          <th>Tarifa</th>
+          <th>Horas</th>
+          <th>Importe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-tipo="ORDINARIA">
+          <td class="tipo">Ordinaria</td>
+          <td class="tarifa" data-tarifa>0,00 EUR</td>
+          <td><input type="number" class="horas" min="0" value="0"></td>
+          <td class="importe" data-importe>0,00 EUR</td>
+        </tr>
+        <tr data-tipo="NOCTURNA">
+          <td class="tipo">Nocturna</td>
+          <td class="tarifa" data-tarifa>0,00 EUR</td>
+          <td><input type="number" class="horas" min="0" value="0"></td>
+          <td class="importe" data-importe>0,00 EUR</td>
+        </tr>
+        <tr data-tipo="FESTIVA">
+          <td class="tipo">Festiva</td>
+          <td class="tarifa" data-tarifa>0,00 EUR</td>
+          <td><input type="number" class="horas" min="0" value="0"></td>
+          <td class="importe" data-importe>0,00 EUR</td>
+        </tr>
+        <tr data-tipo="FESTIVA_NOCTURNA">
+          <td class="tipo">Festiva nocturna</td>
+          <td class="tarifa" data-tarifa>0,00 EUR</td>
+          <td><input type="number" class="horas" min="0" value="0"></td>
+          <td class="importe" data-importe>0,00 EUR</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="total-box">
+      <div>
+        <div class="total-label">Total gratificaciones</div>
+		Minimo a cobrar o computar, 6 horas.  
+      </div>
+      <div class="total-brand">Er.N.E</div>
+      <div class="total-values">
+        <div id="totalEuros" class="total-euros">0,00 EUR</div>
+        <div id="totalHoras" class="total-horas">Horas totales: 0,00 h</div>
+        <div id="totalHorasIndice" class="total-horas">Horas compensadas indice: 0,00 h</div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="btnLimpiar" class="btn-clear" type="button">
+        <span>Limpiar</span>
+      </button>
+
+      <button id="btnPDF" class="btn-clear" type="button">
+        <span>Descargar PDF</span>
+      </button>
+
+      <!-- BOTÓN ROJO PANEL -->
+      <button id="btnPanel" class="btn-clear btn-panel" type="button"
+              onclick="window.location.href='index.html'">
+        <span>Panel</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tarifas = {
+    "AGENTE": {"ORDINARIA": 32.80,"NOCTURNA": 35.94,"FESTIVA": 37.50,"FESTIVA_NOCTURNA": 39.09},
+    "AGENTE_1": {"ORDINARIA": 34.41,"NOCTURNA": 37.50,"FESTIVA": 39.11,"FESTIVA_NOCTURNA": 40.64},
+    "SUBOFICIAL": {"ORDINARIA": 37.50,"NOCTURNA": 40.62,"FESTIVA": 42.18,"FESTIVA_NOCTURNA": 43.76},
+    "OFICIAL": {"ORDINARIA": 40.62,"NOCTURNA": 43.80,"FESTIVA": 45.33,"FESTIVA_NOCTURNA": 46.90}
+  };
+
+  // indices para horas compensadas
+  const indices = {
+    "ORDINARIA": 1.50,
+    "NOCTURNA": 1.75,
+    "FESTIVA": 2.00,
+    "FESTIVA_NOCTURNA": 2.25
+  };
+
+  function euro(v) {
+    return v.toFixed(2).replace(".", ",") + " EUR";
+  }
+  function num(v) {
+    return v.toFixed(2).replace(".", ",");
+  }
+
+  function actualizarTarifasEIndices() {
+    const cat = document.getElementById("categoria").value;
+    const t = tarifas[cat] || {};
+    document.querySelectorAll("tbody tr").forEach(row => {
+      const tipo = row.getAttribute("data-tipo");
+      const tarifa = t[tipo] || 0;
+      const celdaTarifa = row.querySelector("[data-tarifa]");
+      celdaTarifa.textContent = euro(tarifa);
+      celdaTarifa.dataset.valor = tarifa;
+    });
+    recalcular();
+  }
+
+  function recalcular() {
+    let totalEuros = 0;
+    let totalHoras = 0;
+    let totalHorasIndice = 0;
+
+    document.querySelectorAll("tbody tr").forEach(row => {
+      const tipo = row.getAttribute("data-tipo");
+      const tarifa = parseFloat(row.querySelector("[data-tarifa]").dataset.valor || "0");
+      const horas = parseFloat(row.querySelector(".horas").value || "0");
+      const importe = tarifa * horas;
+      const indice = indices[tipo] || 0;
+      const horasCompensadas = horas * indice;
+
+      row.querySelector("[data-importe]").textContent = euro(importe);
+
+      totalEuros += importe;
+      totalHoras += horas;
+      totalHorasIndice += horasCompensadas;
+    });
+
+    document.getElementById("totalEuros").textContent = euro(totalEuros);
+    document.getElementById("totalHoras").textContent =
+      "Horas totales: " + num(totalHoras) + " h";
+    document.getElementById("totalHorasIndice").textContent =
+      "Horas compensadas indice: " + num(totalHorasIndice) + " h";
+  }
+
+  function limpiar() {
+    document.querySelectorAll(".horas").forEach(i => i.value = 0);
+    recalcular();
+  }
+
+  document.getElementById("categoria").addEventListener("change", actualizarTarifasEIndices);
+  document.addEventListener("input", e => {
+    if (e.target.classList.contains("horas")) recalcular();
+  });
+  document.getElementById("btnLimpiar").addEventListener("click", e => {
+    e.preventDefault();
+    limpiar();
+  });
+  actualizarTarifasEIndices();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  function limpiarSimbolos(txt) {
+    if (!txt) return "0,00 EUR";
+    let t = txt.toString().trim();
+    t = t.replace(/\s+/g, "");
+    t = t.replace(/EUR/gi, "");
+    if (!t) return "0,00 EUR";
+    if (!t.includes(",")) {
+      const n = parseFloat(t) || 0;
+      return n.toFixed(2).replace(".", ",") + " EUR";
+    }
+    return t + " EUR";
+  }
+
+  function generarPDFCorporativo() {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert("No se ha podido cargar la libreria PDF.");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "mm", format: "a4" });
+
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+
+    const blueDark = [10, 35, 85];
+    const blueMid  = [18, 58, 125];
+    const grayText = [40, 50, 70];
+
+    const categoria = document.getElementById("categoria")?.value || "";
+    const totalEurosTxt = limpiarSimbolos(
+      document.getElementById("totalEuros")?.innerText || "0,00 EUR"
+    );
+    const totalHorasTxt = (document.getElementById("totalHoras")?.innerText || "")
+      .replace("Horas totales:", "")
+      .trim();
+    const totalHorasIndiceTxt = (document.getElementById("totalHorasIndice")?.innerText || "")
+      .replace("Horas compensadas indice:", "")
+      .trim();
+
+    doc.setFillColor(...blueDark);
+    doc.rect(0, 0, pageW, 32, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text("Er.N.E.", 14, 14);
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "normal");
+    doc.text("Calculadora gratificaciones", 14, 24);
+
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(0.3);
+    doc.line(14, 28, pageW - 14, 28);
+
+    const boxX = 12, boxY = 42, boxW = pageW - 24, boxH = 60;
+
+    doc.setFillColor(245, 248, 255);
+    doc.setDrawColor(...blueMid);
+    doc.setLineWidth(0.6);
+    doc.roundedRect(boxX, boxY, boxW, boxH, 3, 3, "FD");
+
+    doc.setTextColor(...blueMid);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Resumen", boxX + 8, boxY + 10);
+
+    doc.setDrawColor(210, 220, 240);
+    doc.line(boxX + 8, boxY + 14, boxX + boxW - 8, boxY + 14);
+
+    let y = boxY + 26;
+    const leftX = boxX + 8;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(...grayText);
+    doc.text("Categoria: " + categoria, leftX, y); y += 10;
+    doc.text("Total gratificaciones: " + totalEurosTxt, leftX, y); y += 10;
+    doc.text("Horas totales: " + totalHorasTxt, leftX, y); y += 10;
+    doc.text("Horas compensadas indice: " + totalHorasIndiceTxt, leftX, y);
+
+    let startY = boxY + boxH + 18;
+
+    doc.setTextColor(...blueMid);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Detalle (solo horas positivas)", 14, startY);
+
+    startY += 6;
+    doc.setDrawColor(210, 220, 240);
+    doc.line(14, startY, pageW - 14, startY);
+
+    startY += 8;
+    doc.setFontSize(10);
+    doc.setTextColor(...grayText);
+    doc.setFont("helvetica", "normal");
+
+    const filas = Array.from(document.querySelectorAll("tbody tr"));
+    const positivas = filas.filter(f => parseFloat(f.querySelector(".horas")?.value || "0") > 0);
+
+    if (positivas.length === 0) {
+      doc.setFont("helvetica", "italic");
+      doc.text("Sin horas positivas introducidas.", 14, startY);
+    } else {
+      positivas.forEach(fila => {
+        const tipo = fila.getAttribute("data-tipo") || "";
+        const horas = fila.querySelector(".horas")?.value || "0";
+        const tarifa = limpiarSimbolos(
+          fila.querySelector("[data-tarifa]")?.innerText || "0,00 EUR"
+        );
+        const importe = limpiarSimbolos(
+          fila.querySelector("[data-importe]")?.innerText || "0,00 EUR"
+        );
+
+        doc.text(
+          `${tipo.replace("_"," ")} | horas: ${horas} | tarifa: ${tarifa} | importe: ${importe}`,
+          14,
+          startY
+        );
+        startY += 7;
+
+        if (startY > pageH - 25) {
+          doc.addPage();
+          startY = 20;
+        }
+      });
+    }
+
+    doc.setTextColor(90, 100, 120);
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(9);
+    doc.text("Documento informativo interno.", 14, pageH - 20);
+
+    doc.setTextColor(120, 130, 150);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    const fechaGen = new Date().toLocaleDateString("es-ES");
+    doc.text("Generado: " + fechaGen, 14, pageH - 10);
+    doc.text("www.erne.es", pageW - 40, pageH - 10);
+
+    doc.save("gratificaciones_resultado.pdf");
+  }
+
+  const btnPDF = document.getElementById("btnPDF");
+  if (btnPDF) {
+    btnPDF.addEventListener("click", generarPDFCorporativo);
+  }
+</script>
+
+</body>
+</html>
