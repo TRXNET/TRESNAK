@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tips - Er.N.E. Tresnak</title>
+  <link rel="icon" type="image/x-icon" href="ep.ico">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ErNE Tresnak">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+
+    :root {
+      --bg: #050816;
+      --card-bg: rgba(15, 23, 42, 0.95);
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.2);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.25);
+      --radius-xl: 18px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.6);
+      --blur: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, #1d2333 0, transparent 55%),
+        radial-gradient(circle at bottom right, #020617 0, transparent 55%),
+        var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 900px;
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.1), transparent 60%);
+      border-radius: 26px;
+      padding: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.1), transparent 55%);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .panel {
+      position: relative;
+      background: rgba(15, 23, 42, 0.92);
+      border-radius: 24px;
+      padding: 28px 26px 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(var(--blur));
+      z-index: 1;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      font-size: 11px;
+      color: var(--accent);
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      padding: 4px 10px;
+      background: radial-gradient(circle at top left, var(--accent-soft), transparent 70%);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .status-pill span {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .panel {
+        padding: 20px 18px 18px;
+      }
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-link {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 18px 16px;
+      border-radius: var(--radius-xl);
+      background: var(--card-bg);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: inherit;
+      text-decoration: none;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+      transition:
+        transform 0.18s ease-out,
+        box-shadow 0.18s ease-out,
+        border-color 0.18s ease-out,
+        background 0.18s ease-out;
+    }
+
+    .card-link::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      opacity: 0;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .card-main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.25), transparent 60%);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.9);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card-text {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 27em;
+    }
+
+    .card-footer {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .arrow-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+      transition:
+        background-color 0.18s ease-out,
+        border-color 0.18s ease-out,
+        transform 0.16s ease-out;
+    }
+
+    .arrow-pill span {
+      font-size: 14px;
+      transition: transform 0.16s ease-out;
+    }
+
+    .card-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.75);
+      border-color: rgba(148, 163, 184, 0.8);
+      background:
+        radial-gradient(circle at top left, rgba(15, 23, 42, 0.2), transparent 70%),
+        var(--card-bg);
+    }
+
+    .card-link:hover .arrow-pill {
+      background-color: rgba(15, 23, 42, 1);
+      border-color: rgba(148, 163, 184, 1);
+      transform: translateX(1px);
+    }
+
+    .card-link:hover .arrow-pill span {
+      transform: translateX(2px);
+    }
+
+    .card-link:active {
+      transform: translateY(-1px) scale(0.99);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.8);
+    }
+
+    #Layer1 {
+      position:absolute;
+      width:200px;
+      height:115px;
+      z-index:1;
+      left: 511px;
+      top: 14px;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        align-items: flex-start;
+        padding-top: 12px;
+      }
+
+      .shell {
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      #Layer1 {
+        left: 20px;
+        top: 10px;
+        transform: scale(0.8);
+      }
+    }
+
+    .btn-erne-wrap {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-erne-wrap a {
+      padding: 12px 26px;
+      background: #15803d;
+      border-radius: 999px;
+      font-weight: 700;
+      color: #e5e7eb;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      transition:
+        background-color 0.18s ease-out,
+        transform 0.16s ease-out,
+        box-shadow 0.18s ease-out;
+    }
+
+    .btn-erne-wrap a:hover {
+      transform: translateY(-2px);
+      background: #166534;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.7);
+    }
+
+    .btn-erne-wrap a:active {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65);
+    }
+
+    .Estilo2 {
+      font-size: 18px;
+    }
+
+    .quick-row {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .quick-card {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.55);
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,0.18), transparent 65%),
+        rgba(15,23,42,0.95);
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      transition:
+        transform 0.16s ease-out,
+        box-shadow 0.16s ease-out,
+        border-color 0.16s ease-out,
+        background 0.16s ease-out;
+      text-decoration:none;
+      color: inherit;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.85);
+      border-color: rgba(34,197,94,0.9);
+    }
+
+    .quick-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .quick-sub {
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .Estilo4 {
+      font-size: 10px;
+    }
+
+    .Estilo5 {
+      font-size: 12px;
+    }
+
+    .card-link {
+      touch-action: manipulation;
+    }
+
+    .card-link.dragging {
+      opacity: 0.4;
+      transform: scale(0.98);
+    }
+
+    .grid.drag-over {
+      outline: 2px dashed rgba(34,197,94,0.5);
+      outline-offset: 6px;
+    }
+
+    /* Botón 1 ligeramente más oscuro */
+    .grid .card-link:nth-child(1) {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border-color: rgba(59, 130, 246, 0.25);
+    }
+
+    .grid .card-link:nth-child(1):hover {
+      background: linear-gradient(135deg, #1e293b, #334155);
+    }
+
+    /* NUEVO brilla en el botón 8 */
+    .grid .card-link:nth-child(8) .arrow-pill {
+      border-color: rgba(34,197,94,0.6);
+      background: rgba(34,197,94,0.08);
+    }
+
+    .grid .card-link:nth-child(8) .arrow-pill span {
+      font-weight:700;
+      letter-spacing:.1em;
+      animation:nuevo-glow 2s ease-in-out infinite;
+    }
+
+    .back-row {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .back-row a {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.55);
+      background: rgba(15,23,42,0.95);
+      color: #e5e7eb;
+      text-decoration: none;
+      font-weight: 700;
+      transition:
+        transform 0.16s ease-out,
+        border-color 0.16s ease-out,
+        background 0.16s ease-out;
+    }
+
+    .back-row a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(34,197,94,0.9);
+      background: rgba(30,41,59,0.98);
+    }
+
+    /* En esta página no usamos el brillo NUEVO del botón 8 */
+    .grid .card-link:nth-child(8) .arrow-pill,
+    .grid .card-link:nth-child(8) .arrow-pill span {
+      animation: none;
+      text-shadow: none;
+      border-color: rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="shell">
+  <div class="panel">
+
+    <header class="panel-header">
+      <div class="title-block">
+        TIPS
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Trucos y manuales
+        </div>
+        <h1><span class="Estilo2">Utilidades y guías</span></h1>
+      </div>
+
+      <div>
+        <img src="euskalpolizia txiki.jpg" width="147" height="57" alt="">
+      </div>
+    </header>
+
+    <main class="grid">
+
+      <!-- 1 -->
+      <a class="card-link" href="tips/sam.pdf">
+        <div class="card-main">
+          <div class="card-heading">
+            <div class="card-title-wrap">
+              <div class="icon-badge">1</div>
+              <div>
+                <div class="card-title">SAM</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-text">
+            Consulta la información, requisitos y condiciones del Servicio Activo Modulado.
+          </p>
+        </div>
+
+        <div class="card-footer">
+          <div class="arrow-pill">Ir a SAM <span></span></div>
+        </div>
+      </a>
+
+      <!-- 2 -->
+      <a class="card-link" href="tips/spray.pdf">
+        <div class="card-main">
+          <div class="card-heading">
+            <div class="card-title-wrap">
+              <div class="icon-badge">2</div>
+              <div>
+                <div class="card-title">Utilizacion de Spray de defensa</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-text">
+            Manual de utilización y aspectos prácticos.
+          </p>
+        </div>
+
+        <div class="card-footer">
+          <div class="arrow-pill">Ir al manual <span></span></div>
+        </div>
+      </a>
+
+      <!-- 3 -->
+      <a class="card-link" href="tips/juicios.pdf">
+        <div class="card-main">
+          <div class="card-heading">
+            <div class="card-title-wrap">
+              <div class="icon-badge">3</div>
+              <div>
+                <div class="card-title">JUICIOS</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-text">
+            Compensaciones horarias y cobro.
+          </p>
+        </div>
+
+        <div class="card-footer">
+          <div class="arrow-pill">Ir al manual <span></span></div>
+        </div>
+      </a>
+
+      <!-- 4 -->
+      <a class="card-link" href="tips/prolongacion.pdf">
+        <div class="card-main">
+          <div class="card-heading">
+            <div class="card-title-wrap">
+              <div class="icon-badge">4</div>
+              <div>
+                <div class="card-title">PROLONGACIONES DE JORNADA</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-text">
+            Tipos de modificaciones y sus compensaciones.
+          </p>
+        </div>
+
+        <div class="card-footer">
+          <div class="arrow-pill">Ir al manual <span></span></div>
+        </div>
+      </a>
+
+      <!-- 5 -->
+      <a class="card-link" href="tips/permutas.pdf">
+        <div class="card-main">
+          <div class="card-heading">
+            <div class="card-title-wrap">
+              <div class="icon-badge">5</div>
+              <div>
+                <div class="card-title">PERMUTAS</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-text">
+            Información sobre permutas.
+          </p>
+        </div>
+
+        <div class="card-footer">
+          <div class="arrow-pill">Ir al manual <span></span></div>
+        </div>
+      </a>
+
+      <!-- 6 -->
+      <a class="card-link" href="tips/codigos.pdf">
+        <div class="card-main">
+          <div class="card-heading">
+            <div class="card-title-wrap">
+              <div class="icon-badge">6</div>
+              <div>
+                <div class="card-title">CÓDIGOS</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="card-text">
+            Códigos informáticos de UTAP y Línea A.
+          </p>
+        </div>
+
+        <div class="card-footer">
+          <div class="arrow-pill">Ir a códigos <span></span></div>
+        </div>
+      </a>
+
+    </main>
+
+    <div class="back-row">
+      <a href="index.html">Volver a Tresnak</a>
+    </div>
+
+    <div class="btn-erne-wrap">
+      <a href="https://www.erne.es" target="_blank" rel="noopener">www.erne.es</a>
+    </div>
+
+    <br>
+
+    <span class="Estilo4">
+      El contenido de este sitio está protegido por derechos de autor.
+      No se permite su reproducción total o parcial sin autorización expresa del titular.
+    </span>
+
+  </div>
+
+  <span class="Estilo5">
+    -Todas las herramientas y datos son a nivel consultivo. Consulta a tu delegado ErNE
+  </span>
+</div>
+
+</body>
+</html>
