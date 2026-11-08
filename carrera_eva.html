@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carrera profesional. Calculador de evaluación</title>
+<link rel="icon" type="image/x-icon" href="ep.ico">
+<style>
+:root{--ink:#102442;--muted:#61708a;--blue:#1769aa;--deep:#0b315d;--soft:#eaf4fc;--bg:#f2f7fb;--line:#d7e4ef;--good:#08785b;--bad:#bd3a55;--display:system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);font:15px/1.55 var(--display);color:var(--ink)} .container{max-width:1120px;margin:auto;padding:28px 20px 56px} :focus-visible{outline:3px solid #73b9ed;outline-offset:2px}
+.hero{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;background:var(--deep);color:#fff;border-radius:22px;padding:34px 36px 0;overflow:hidden}.brand{margin:0;font-weight:700;font-size:13px;color:#b8dbf5}.hero h1{font:800 clamp(29px,4.5vw,47px)/1.05 var(--display);letter-spacing:-.025em;margin:10px 0;max-width:14em}.sub{margin:0 0 34px;color:#c9e3f6;max-width:38em}.meters{list-style:none;margin:0;padding:0;display:flex;align-items:end;gap:6px;height:150px}.meters li{width:84px;height:var(--h);background:#12538c;border-radius:10px 10px 0 0;padding:10px;display:flex;flex-direction:column;justify-content:flex-start;gap:1px}.meters li:last-child{background:#2784c8}.meters b{font-size:14px}.meters span{font-size:12px;color:#d6ebfb}
+.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);gap:22px;margin-top:22px;align-items:start}.panel,.result{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:18px}.panel h2{display:flex;align-items:center;gap:12px;font:750 21px/1.2 var(--display);letter-spacing:-.01em;margin:0}.step{flex:none;width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:14px}.panel p.help{color:var(--muted);margin:8px 0 18px;font-size:14px;max-width:64ch}.pill{font-size:12px;background:var(--soft);color:var(--blue);padding:4px 10px;border-radius:30px;font-weight:750;white-space:nowrap;float:right;margin-top:-25px}
+.card{display:none}.field{display:flex;flex-direction:column;gap:6px;margin-top:14px}.field label{font-weight:700;font-size:14px}.field small{color:var(--muted);font-size:12px}.field select{width:100%;border:1px solid #c9d9e7;border-radius:10px;padding:12px;background:#fff;color:var(--ink);font:inherit}.field select:focus{border-color:var(--blue)}.section-label{font:750 15px var(--display);color:var(--blue);margin:22px 0 8px;padding-left:10px;border-left:3px solid var(--blue)}.note{background:#f3f8fc;border:1px solid #c9deee;color:#355777;border-radius:12px;padding:13px 15px;margin-top:16px;font-size:13px}.note strong{color:var(--deep)}
+.sticky{position:sticky;top:18px}.result{border-top:5px solid var(--blue);margin-bottom:0}.rlabel{font-weight:700;font-size:13px;color:var(--blue)}.result h2{font:750 22px var(--display);margin:4px 0 10px}.score{font:800 84px/1 var(--display);letter-spacing:-.04em;color:var(--deep);font-variant-numeric:tabular-nums}.score small{font-size:24px;color:#8295aa;font-weight:600;letter-spacing:0}.progress{position:relative;margin:22px 0 28px}.track{height:12px;border-radius:8px;background:var(--soft);overflow:hidden}#bar{height:100%;width:0;background:#338dce;border-radius:8px;transition:width .2s}#bar.ok{background:var(--good)}#bar.no{background:var(--bad)}.tick{position:absolute;left:50%;top:-5px;height:22px;border-left:2px solid var(--ink);padding:24px 0 0 6px;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap}.status{font-weight:700;font-size:14px;padding:12px 14px;border-radius:10px;background:var(--soft);color:var(--deep)}.status.ok{background:#e2f4ed;color:var(--good)}.status.no{background:#fcecf0;color:var(--bad)}.breakrow{display:grid;grid-template-columns:1fr auto;gap:6px 10px;padding:13px 0 12px;border-bottom:1px solid var(--line);font-size:14px}.breakrow::after{content:"";grid-column:1/-1;height:4px;border-radius:4px;background:linear-gradient(var(--blue),var(--blue)) 0 0/calc(var(--p,0)*100%) 100% no-repeat,var(--soft);transition:background-size .2s}.breakrow b{font:750 15px var(--display);font-variant-numeric:tabular-nums}.hint,.footer{font-size:12.5px;color:var(--muted);margin:12px 0 0}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.primary{padding:12px 18px;background:var(--blue);color:#fff;border:0;border-radius:10px;font:inherit;font-weight:750;cursor:pointer}.primary:hover{background:var(--deep)}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sticky{position:static}.hero{padding:26px 24px 0;grid-template-columns:1fr}.meters{height:110px}.meters li{flex:1;width:auto}.container{padding:12px}}@media(max-width:480px){.panel,.result{padding:18px}.score{font-size:64px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}@media print{body{background:#fff}.layout{display:block}.panel{break-inside:avoid}.actions{display:none}.sticky{position:static}.meters{display:none}.hero{padding-bottom:26px}}
+</style>
+</head>
+<body>
+<main class="container">
+  <header class="hero">
+    <div><p class="brand">ErNE · herramienta orientativa</p><h1>Carrera profesional<br>Calculador de evaluación</h1></div>
+    <ol class="meters" aria-label="Ponderación de los tres bloques"><li style="--h:50%"><b>Conducta</b><span>25 puntos</span></li><li style="--h:100%"><b>Asistencia</b><span>50 puntos</span></li><li style="--h:50%"><b>Resultados</b><span>25 puntos</span></li></ol>
+  </header>
+  <div class="layout">
+    <div>
+      <section class="panel">
+        <div class="card"><div align="left"><img src="euskalpolizia txiki.jpg" alt=""></div></div>
+        <h2><span class="step">1</span> Conducta profesional</h2><span class="pill">Máximo 25 puntos</span>
+        <p class="help">Selecciona la circunstancia aplicable en cada apartado del año natural de evaluación.</p>
+        <div class="field"><label for="distincion">Condecoraciones y distinciones</label><select id="distincion" data-group="conducta">
+          <option value="0">Ninguna / no aplicable — 0 puntos</option><option value="20">Medalla con distintivo rojo (Decreto 202/2012) — 20 puntos</option><option value="20">Medalla con distintivo verde (Decreto 202/2012) — 20 puntos</option><option value="15">Medalla con distintivo blanco (Decreto 202/2012) — 15 puntos</option><option value="10">Diploma al servicio policial con distintivo rojo — 10 puntos</option><option value="8">Diploma al servicio policial con distintivo blanco — 8 puntos</option><option value="5">Felicitación conforme al Decreto 202/2012 — 5 puntos</option><option value="5">Reconocimientos honoríficos de Administraciones Públicas — 5 puntos</option>
+        </select></div>
+        <div class="field"><label for="sanciones">Ausencia de sanciones disciplinarias</label><select id="sanciones" data-group="conducta">
+          <option value="20">Ausencia total de sanciones — 20 puntos</option><option value="10">Ausencia de sanciones inferiores a 3 meses — 10 puntos</option><option value="5">Ausencia de sanciones de 3 meses o más e inferiores a 6 meses — 5 puntos</option><option value="0">Otra situación / no aplicable — 0 puntos</option>
+        </select></div>
+      </section>
+      <section class="panel">
+        <h2><span class="step">2</span> Cumplimiento horario y asistencia</h2><span class="pill">Máximo 50 puntos</span>
+        <p class="help">Elige el tramo de ausencia aplicable al año natural de evaluación.</p>
+        <div class="field"><label for="asistencia">Porcentaje de ausencia al trabajo</label><select id="asistencia" data-group="asistencia">
+          <option value="50">Ausencia igual o inferior al 5 % — 50 puntos</option><option value="30">Ausencia superior al 5 % e inferior al 10 % — 30 puntos</option><option value="0">Ausencia igual o superior al 10 % / otra situación — 0 puntos</option>
+        </select></div>
+        <div class="note"><strong>Nota del documento:</strong> cuando una ausencia igual o superior al 10 % se deba exclusivamente a incapacidad temporal por enfermedad común o accidente no laboral, se considerarán los porcentajes de asistencia de los tres años anteriores. Para las evaluaciones de 2023 y 2024 se aplican además las reglas específicas indicadas en el documento.</div>
+      </section>
+      <section class="panel">
+        <h2><span class="step">3</span> Logro de resultados</h2><span class="pill">Máximo 25 puntos</span>
+        <p class="help">Selecciona los resultados que correspondan. La comisión de servicios se refiere al año natural de evaluación y el examen de salud a los últimos tres años.</p>
+        <div class="field"><label for="comision">Comisión de servicios de superior categoría y/o diferente especialidad</label><select id="comision" data-group="resultados">
+          <option value="0">No aplicable — 0 puntos</option><option value="15">Durante 9 meses o más — 15 puntos</option><option value="10">Durante 6 meses o más — 10 puntos</option><option value="5">Durante 3 meses o más — 5 puntos</option>
+        </select></div>
+        <div class="field"><label for="salud">Examen de salud realizado (últimos 3 años)</label><select id="salud" data-group="resultados"><option value="0">No realizado / no aplicable — 0 puntos</option><option value="10">He realizado el examen de salud — 10 puntos</option></select></div>
+        <div class="field"><label for="objetivos">Contribución a los objetivos estratégicos de la organización</label><select id="objetivos" data-group="resultados">
+          <option value="0">No aplicable — 0 puntos</option><option value="20">Consecución de los objetivos al 100 % — 20 puntos</option><option value="15">Al menos el 80 % y por debajo del 100 % — 15 puntos</option><option value="10">Al menos el 60 % y por debajo del 80 % — 10 puntos</option>
+        </select></div>
+      </section>
+    </div>
+    <aside class="sticky"><section class="result" aria-live="polite">
+      <div class="rlabel">RESULTADO ORIENTATIVO</div><h2>Puntuación de evaluación</h2><div class="score"><span id="total">70</span><small> / 100</small></div>
+      <div class="progress"><div class="track"><div id="bar"></div></div><span class="tick">Más de 50</span></div>
+      <div class="status" id="status">Selecciona tus datos para calcular el resultado.</div>
+      <div class="breakrow" id="rowConducta"><span>Conducta profesional</span><b id="conducta">20 puntos</b></div>
+      <div class="breakrow" id="rowAsistencia"><span>Horario y asistencia</span><b id="asistenciaScore">50 puntos</b></div>
+      <div class="breakrow" id="rowResultados"><span>Logro de resultados</span><b id="resultados">0 puntos</b></div>
+      <p class="hint">Para cobrar el nivel correspondiente se deben conseguir más de 50 puntos.</p>
+      <div class="actions"><button type="button" class="primary" id="reset">Reiniciar cálculo</button><button type="button" class="primary" onclick="window.print()">Imprimir</button></div>
+    </section></aside>
+  </div>
+  <p class="footer">Fuente: Decreto de Carrera profesional. Cálculo orientativo. Actualizado noviembre de 2026.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function points(id){return Number($(id).value)}
+function update(){
+ const conducta=Math.min(25,points('distincion')+points('sanciones'));
+ const asistencia=points('asistencia');
+ const resultados=Math.min(25,points('comision')+points('salud')+points('objetivos'));
+ const total=conducta+asistencia+resultados, passed=total>50;
+ $('total').textContent=total; $('conducta').textContent=conducta+' puntos'; $('asistenciaScore').textContent=asistencia+' puntos'; $('resultados').textContent=resultados+' puntos';
+ $('bar').style.width=Math.min(total,100)+'%'; $('bar').className=passed?'ok':'no';
+ [['rowConducta',conducta/25],['rowAsistencia',asistencia/50],['rowResultados',resultados/25]].forEach(([id,p])=>$(id).style.setProperty('--p',Math.min(p,1)));
+ $('status').className='status '+(passed?'ok':'no');
+ $('status').textContent=passed?'Superas el mínimo: obtienes más de 50 puntos.':'Aún no superas el mínimo de más de 50 puntos.';
+}
+document.querySelectorAll('select').forEach(select=>select.addEventListener('change',update));
+$('reset').addEventListener('click',()=>{ $('distincion').value='0'; $('sanciones').value='20'; $('asistencia').value='50'; $('comision').value='0'; $('salud').value='0'; $('objetivos').value='0'; update(); });
+update();
+</script>
+</body>
+</html>

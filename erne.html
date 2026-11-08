@@ -132,7 +132,38 @@ body {
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
 }
+.carrera-menu { position: relative; align-self: start; min-width: 0; }
+summary.carrera { cursor: pointer; list-style: none; }
+summary.carrera::-webkit-details-marker { display: none; }
+
+.carrera-options {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+}
+
+.carrera-options a {
+    flex: 1 1 auto;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #115156;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.carrera-options a:hover, .carrera-options a:focus-visible { background: #237775; }
+
+@media (max-width: 650px) {
+    .carrera-options { position: static; }
+}
 </style>
+<link rel="icon" type="image/x-icon" href="IA/TRESNAK/ep.ico">
 </head>
 <body>
 
@@ -145,14 +176,37 @@ body {
         Baremo de méritos
     </a>
 
-    <a href="carrera.html" class="button carrera">
+    <details class="carrera-menu">
+    <summary class="button carrera">
         <span class="icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><path d="M5 20v-5h4v5M10 20v-9h4v9M15 20V7h4v13"/></svg>
         </span>
         Carrera profesional
-    </a>
+    </summary>
+        <div class="carrera-options">
+            <a href="IA/TRESNAK/carrera_encuadra.html">Encuadramiento</a>
+            <a href="IA/TRESNAK/carrera_eva.html">Evaluación</a>
+        </div>
+    </details>
 
 </nav>
 
+<script>
+const carreraMenu = document.querySelector('.carrera-menu');
+carreraMenu.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') carreraMenu.open = true;
+});
+carreraMenu.addEventListener('pointerleave', event => {
+    if (event.pointerType === 'mouse' && !carreraMenu.contains(document.activeElement)) {
+        carreraMenu.open = false;
+    }
+});
+carreraMenu.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && carreraMenu.open) {
+        carreraMenu.open = false;
+        carreraMenu.querySelector('summary').focus();
+    }
+});
+</script>
 </body>
 </html>

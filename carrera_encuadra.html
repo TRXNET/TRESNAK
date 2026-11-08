@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carrera profesional. Calculador encuadramiento y cambio de nivel.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1c1530;--muted:#6a6280;--purple:#5a2a82;--deep:#2a1344;--lilac:#efe8f6;--bg:#f3f1f7;--line:#e3deec;--green:#0f7a55;--red:#b3364e;--display:'Bricolage Grotesque',system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:15px/1.55 'Figtree',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;color:var(--ink)}
+.container{max-width:1120px;margin:auto;padding:28px 20px 56px}
+:focus-visible{outline:3px solid #b98be0;outline-offset:2px}
+
+/* Cabecera */
+.hero{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:end;background:var(--deep);color:#fff;border-radius:22px;padding:34px 36px 0;overflow:hidden;position:relative}
+.hero .brand{margin:0;font-weight:600;font-size:13px;color:#d9c3ec}
+.hero h1{font:800 clamp(30px,4.6vw,48px)/1.05 var(--display);letter-spacing:-.02em;margin:10px 0 10px;max-width:11em}
+.hero .sub{margin:0 0 34px;color:#cdb8e0;max-width:34em}
+.ladder{list-style:none;margin:0;padding:0;display:flex;align-items:flex-end;gap:6px;height:150px}
+.ladder li{width:84px;height:var(--h);background:#4a2570;border-radius:10px 10px 0 0;padding:10px;display:flex;flex-direction:column;justify-content:flex-start;gap:1px}
+.ladder li:last-child{background:#7a49a8}
+.ladder b{font:700 14px var(--display)}
+.ladder span{font-size:12px;color:#dccbef}
+
+/* Layout y paneles */
+.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,1fr);gap:22px;margin-top:22px;align-items:start}
+.panel,.result{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:18px}
+.subtitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+.panel h2{display:flex;align-items:center;gap:12px;font:700 21px/1.2 var(--display);letter-spacing:-.01em;margin:0}
+.step{flex:none;width:30px;height:30px;border-radius:50%;background:var(--purple);color:#fff;display:grid;place-items:center;font:700 14px var(--display)}
+.panel p.help{color:var(--muted);margin:0 0 18px;font-size:14px;max-width:62ch}
+.pill{font-size:12px;background:var(--lilac);color:var(--purple);padding:4px 10px;border-radius:30px;font-weight:700;white-space:nowrap}
+.autopts{display:block;font:700 22px var(--display);padding:10px 14px;border-radius:10px;text-align:center}
+
+/* Elección de modalidad */
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.choice button{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);background:#fff;padding:18px;border-radius:12px;font:700 16px var(--display);text-align:left;cursor:pointer;color:var(--ink);transition:border-color .15s,background .15s}
+.choice button::before{content:"";flex:none;width:18px;height:18px;border-radius:50%;border:2px solid #c9bfd8;transition:.15s}
+.choice button:hover{border-color:#b9a2d0}
+.choice button.active{border-color:var(--purple);background:#f7f2fb}
+.choice button.active::before{border-color:var(--purple);background:radial-gradient(var(--purple) 0 4px,#fff 5px)}
+.warning{background:#fff6e0;border:1px solid #ecd28f;color:#5e4616;border-radius:12px;padding:13px 15px;margin-top:14px;font-size:13.5px}
+
+/* Campos */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;font-weight:600}
+.field small{color:var(--muted);font-size:12px}
+.field input,.field select,.itemline select,.itemline input{width:100%;min-width:0;border:1px solid #d3cce0;border-radius:10px;padding:11px 12px;background:#fff;color:var(--ink);font:inherit}
+.field input:focus,.field select:focus{border-color:var(--purple)}
+.blocklabel{font:700 15px var(--display);color:var(--purple);margin:26px 0 8px;padding-left:10px;border-left:3px solid var(--purple)}
+.tiny{font-size:12.5px;color:var(--muted);margin-top:8px}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#fcfbfd}
+.itemline{display:grid;grid-template-columns:1fr 110px auto;gap:8px;align-items:center}
+.smallbtn{border:1px solid #cfc3dc;background:#fff;color:var(--purple);border-radius:10px;padding:10px 14px;font:inherit;font-weight:600;cursor:pointer;transition:background .15s}
+.smallbtn:hover{background:var(--lilac)}
+.smallbtn.remove{color:var(--red);border-color:#ecd1d9;padding:10px 13px}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:9px;color:var(--muted)}
+.check input{width:16px;height:16px;accent-color:var(--purple)}
+.degree-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.degree{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font-size:14px;transition:.15s}
+.degree:hover{border-color:#b9a2d0}
+.degree:has(input:checked){background:#f7f2fb;border-color:var(--purple)}
+.degree input{width:18px;height:18px;accent-color:var(--purple);flex:none}
+.degree span{flex:1;font-weight:500}
+.degree b{color:var(--purple);display:block;font-size:13px;font-weight:700}
+details.tiny summary{cursor:pointer;font-weight:600;color:var(--purple)}
+
+/* Resultado */
+.sticky{position:sticky;top:18px}
+.result{border-top:5px solid var(--purple);margin-bottom:0}
+.rlabel{font-weight:600;font-size:13px;color:var(--purple)}
+.result h2{font:700 22px var(--display);margin:4px 0 10px}
+.score{font:800 84px/1 var(--display);letter-spacing:-.04em;color:var(--deep);font-variant-numeric:tabular-nums}
+.score small{font-size:24px;color:#8a7f9e;font-weight:600;letter-spacing:0}
+.progress{position:relative;margin:22px 0 28px}
+.track{height:12px;border-radius:8px;background:var(--lilac);overflow:hidden}
+#bar{height:100%;width:0;background:#8a56b5;border-radius:8px;transition:width .25s}
+#bar.ok{background:var(--green)}#bar.no{background:var(--red)}
+.tick{position:absolute;left:50%;top:-5px;height:22px;border-left:2px solid var(--ink);padding:24px 0 0 6px;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
+.status{font-weight:600;font-size:14px;padding:12px 14px;border-radius:10px;background:var(--lilac);color:var(--deep)}
+.status.ok{background:#e3f5ec;color:var(--green)}
+.status.no{background:#fdecef;color:var(--red)}
+.breakrow{display:grid;grid-template-columns:1fr auto;gap:6px 10px;padding:13px 0 12px;border-bottom:1px solid var(--line);font-size:14px}
+.breakrow::after{content:"";grid-column:1/-1;height:4px;border-radius:4px;background:linear-gradient(var(--purple),var(--purple)) 0 0/calc(var(--p,0)*100%) 100% no-repeat,var(--lilac);transition:background-size .25s}
+.breakrow b{font:700 15px var(--display);font-variant-numeric:tabular-nums}
+.hint{font-size:12.5px;color:var(--muted);margin:12px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.primary{padding:12px 18px;background:var(--purple);color:#fff;border:0;border-radius:10px;font:inherit;font-weight:700;cursor:pointer}
+.primary:hover{background:var(--deep)}
+.footer{color:var(--muted);font-size:12.5px;line-height:1.65;max-width:80ch;margin-top:8px}
+.hide{display:none!important}
+
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sticky{position:static}.hero{padding:26px 24px 0;grid-template-columns:1fr}.ladder{height:110px}.ladder li{flex:1;width:auto}.container{padding:12px}.grid{grid-template-columns:1fr}}
+@media(max-width:480px){.degree-grid,.choice{grid-template-columns:1fr}.itemline{grid-template-columns:1fr 82px auto}.panel,.result{padding:18px}.score{font-size:64px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{body{background:#fff}.layout{display:block}.panel{break-inside:avoid}.actions,.smallbtn{display:none}.sticky{position:static}.ladder{display:none}.hero{padding-bottom:26px}}
+</style>
+<link rel="icon" type="image/x-icon" href="ep.ico">
+</head>
+<body><main class="container">
+<header class="hero"><div><p class="brand">ErNE · herramienta orientativa</p><h1>Carrera profesional.<br>Calculador encuadramiento y cambio de nivel.</h1></div>
+<ol class="ladder" aria-label="Años de referencia por nivel"><li style="--h:34%"><b>Nivel 1</b><span>5 años</span></li><li style="--h:55%"><b>Nivel 2</b><span>11 años</span></li><li style="--h:77%"><b>Nivel 3</b><span>17 años</span></li><li style="--h:100%"><b>Nivel 4</b><span>25 años</span></li></ol></header>
+<div class="layout"><div>
+<section class="panel"><h2>¿Qué quieres calcular?</h2><div class="choice"><button id="enc" type="button" onclick="choose('enc')">Encuadramiento</button><button id="sub" type="button" onclick="choose('sub')">Subida de nivel</button></div><div id="subalert" class="warning hide"><strong>Importante:</strong> los cursos y las titulaciones que ya se computaron en encuadramientos anteriores no vuelven a puntuar. En encuadramientos posteriores al primero, solo se admiten los cursos y titulaciones obtenidos desde el encuadramiento anterior.</div></section>
+<div id="form" class="hide">
+<section class="panel"><div class="subtitle"><h2><span class="step">1</span>Nivel y trayectoria</h2><span class="pill">20 puntos de partida</span></div><p class="help">El desempeño profesional aporta siempre 20 puntos de partida. No se solicitan meses ni se aplica ningún cálculo proporcional.</p><div class="grid"><div class="field"><label for="nivel">Nivel que deseas alcanzar</label><select id="nivel"><option value="1">Nivel 1 · referencia: 5 años</option><option value="2">Nivel 2 · referencia: 11 años</option><option value="3">Nivel 3 · referencia: 17 años</option><option value="4">Nivel 4 · referencia: 25 años</option></select></div><div class="field"><label>Puntuación de desempeño profesional</label><div id="auto-desempeno" class="pill autopts">20 / 20 puntos</div><small id="des-note">20 puntos asignados automáticamente desde el inicio.</small></div></div></section>
+<section class="panel"><div class="subtitle"><h2><span class="step">2</span>Capacitación y cualificación</h2><span class="pill">Máx. 50 puntos</span></div><p class="help">Se suman titulaciones, especialización, perfeccionamiento, idiomas y euskera, aplicando sus topes y el máximo global de 50 puntos. En encuadramientos posteriores al primero, solo se tienen en cuenta los cursos y titulaciones obtenidos desde el encuadramiento anterior.</p>
+<div class="blocklabel">Titulaciones oficiales · máximo 40</div><div class="tiny">Selecciona todas las titulaciones computables que tengas. Sus puntos se suman, hasta un máximo de 40.</div>
+<div class="degree-grid" id="degrees">
+<label class="degree"><input type="checkbox" value="15"><span>Técnico Superior <b>15 pts.</b></span></label>
+<label class="degree"><input type="checkbox" value="20"><span>Diplomatura <b>20 pts.</b></span></label>
+<label class="degree"><input type="checkbox" value="25"><span>Grado <b>25 pts.</b></span></label>
+<label class="degree"><input type="checkbox" value="30"><span>Máster o Licenciatura <b>30 pts.</b></span></label>
+<label class="degree"><input type="checkbox" value="40"><span>Doctorado <b>40 pts.</b></span></label>
+</div><div class="tiny" id="degree-note">0 / 40 puntos en titulaciones.</div>
+<div class="blocklabel">Cursos de especialización · máximo 20</div><div id="courses"></div><button class="smallbtn" type="button" onclick="addCourse()">+ Añadir curso de especialización</button><div class="tiny">Los cursos de la relación valen 20 puntos cada uno, con un máximo conjunto de 20. Solo se computan los que cumplan el periodo de referencia y no hayan sido utilizados anteriormente.</div>
+<div class="blocklabel">Actividades de perfeccionamiento · máximo 35</div><div id="activities"></div><button class="smallbtn" type="button" onclick="addActivity()">+ Añadir actividad formativa</button><div class="tiny">20–39 h: 5 puntos · 40–79 h: 10 · 80–99 h: 15 · 100 h o más: 20. Se aplica el máximo de 35 puntos en esta categoría y el periodo de admisión indicado en el documento.</div>
+<div class="blocklabel">Idiomas extranjeros · máximo 20</div><div class="field"><label for="idioma">Mayor nivel acreditado desde el último encuadramiento</label><select id="idioma"><option value="0">Ninguno · 0 puntos</option><option value="8">B1 · 8 puntos</option><option value="10">B2 · 10 puntos</option><option value="15">C1 · 15 puntos</option><option value="20">C2 · 20 puntos</option></select></div>
+<div class="blocklabel">Euskera · máximo 30</div><div class="field"><label for="euskera">Mayor nivel acreditado desde el último encuadramiento</label><select id="euskera"><option value="0">Ninguno · 0 puntos</option><option value="10">B1 · 10 puntos</option><option value="15">B2 · 15 puntos</option><option value="25">C1 · 25 puntos</option><option value="30">C2 · 30 puntos</option></select></div></section>
+<section class="panel"><div class="subtitle"><h2><span class="step">3</span>Implicación y compromiso</h2><span class="pill">Máx. 30 puntos</span></div><p class="help">Se suman los puntos por asistencia y por actos representativos, pero el resultado de este bloque nunca puede exceder 30 puntos.</p>
+<div class="grid"><div class="field"><label for="asistencia">Ausencias por bajas: desde el último encuadramiento (media de los últimos 3 años)</label><select id="asistencia"><option value="" selected>Selecciona tu situación</option><option value="30">Ausencias iguales o inferiores al 5 % · 30 puntos</option><option value="15">Ausencias superiores al 5 % y hasta el 10 % · 15 puntos</option><option value="0">Ausencias superiores al 10 % · 0 puntos</option></select><small>Desde el último encuadramiento, con la media de los últimos 3 años de bajas.</small></div><div class="field"><label for="actos">Número de actos representativos (últimos 4 años)</label><input id="actos" type="number" min="0" step="1" value="0" placeholder="0"><small>0,5 puntos por acto, máximo 5 puntos (10 actos).</small></div></div>
+<details class="tiny" style="margin-top:14px"><summary style="cursor:pointer;font-weight:750;color:var(--purple)">¿Qué se considera un acto representativo?</summary><p>Según la tabla: participación en órganos y comités oficiales, ferias y congresos, ponencias, difusión de conocimiento, formación interna, representación institucional y otras colaboraciones expresamente detalladas. Cada actuación debe estar acreditada y cumplir las condiciones del documento.</p></details></section>
+</div></div>
+<aside><section class="result sticky"><div class="rlabel">Resultado individual</div><h2 id="result-title">Selecciona una modalidad</h2><div class="score"><span id="total">—</span><small> / 100</small></div><div class="progress"><div class="track"><div id="bar"></div></div><span class="tick">Más de 50</span></div><div id="status" class="status">Introduce los datos para calcular el resultado.</div><div style="margin-top:17px"><div class="breakrow"><span>Desempeño profesional</span><b id="b-des">— / 20</b></div><div class="breakrow"><span>Capacitación y cualificación</span><b id="b-cap">— / 50</b></div><div class="breakrow"><span>Implicación y compromiso</span><b id="b-com">— / 30</b></div></div><div id="details" class="hint"></div><div id="warnings" class="warning hide"></div><div class="actions"><button class="primary" onclick="window.print()">Imprimir resultado</button><button class="smallbtn" onclick="resetAll()">Reiniciar</button></div><p class="hint">Para obtener un resultado positivo se exige superar los 50 puntos: 51 si la puntuación es entera.</p></section></aside></div>
+<p class="footer">Fuente: Decreto de Carrera profesional. Cálculo orientativo. Actualizado noviembre de 2026.</p>
+</main><script>
+'use strict';
+let mode='',nextCourse=0,nextActivity=0;
+const $=id=>document.getElementById(id);
+const courseOptions=['Curso de Intervención','Curso de Brigada Móvil','Curso de Escolta','Curso de Desactivación de Explosivos y NRBQ','Curso de Guía Canino','Curso de Investigación Criminal (CBIC / CICG / CIC)','Curso de Seguridad Vial','Curso de Piloto de Helicóptero'];
+function choose(m){mode=m;const nivel=$('nivel');nivel.value='1';nivel.disabled=m==='enc';$('enc').classList.toggle('active',m==='enc');$('sub').classList.toggle('active',m==='sub');$('form').classList.remove('hide');$('subalert').classList.toggle('hide',m!=='sub');$('result-title').textContent=m==='enc'?'Encuadramiento':'Subida de nivel';update();}
+function addCourse(){const id=nextCourse++, d=document.createElement('div');d.className='item course';d.innerHTML=`<div class="itemline"><select aria-label="Curso de especialización">${courseOptions.map(x=>`<option>${x}</option>`).join('')}</select><span class="pill">20 pts.</span><button type="button" class="smallbtn remove" aria-label="Eliminar curso" onclick="this.closest('.item').remove();update()">×</button></div><label class="check"><input type="checkbox" class="prev" onchange="update()">Ya computado en un encuadramiento anterior (no puntúa)</label>`;$('courses').appendChild(d);update();}
+function addActivity(){const d=document.createElement('div');d.className='item activity';d.innerHTML=`<div class="itemline"><input type="number" min="0" step="1" placeholder="Horas lectivas" aria-label="Horas de formación" oninput="update()"><span class="actpts pill">0 pts.</span><button type="button" class="smallbtn remove" aria-label="Eliminar actividad" onclick="this.closest('.item').remove();update()">×</button></div><label class="check"><input type="checkbox" class="prev" onchange="update()">Actividad ya computada anteriormente (no puntúa)</label>`;$('activities').appendChild(d);update();}
+function num(id,max){const el=$(id);if(el.value.trim()==='')return null;const v=Number(el.value);return Number.isFinite(v)&&v>=0&&v<=max?v:NaN;}
+function fmt(v){return Number.isInteger(v)?String(v):v.toLocaleString('es-ES',{maximumFractionDigits:2});}
+function update(){
+ if(!mode)return;
+ const des=20;
+ const titleRaw=Array.from(document.querySelectorAll('#degrees input:checked')).reduce((acc,el)=>acc+Number(el.value),0);
+ const title=Math.min(40,titleRaw);$('degree-note').textContent=`${fmt(title)} / 40 puntos en titulaciones${titleRaw>40?' (aplicado el máximo de 40)':''}.`;
+ const lang=Number($('idioma').value),eus=Number($('euskera').value);
+ let specialty=0,activities=0,invalidHours=false,excluded=0;
+ document.querySelectorAll('.course').forEach(el=>{
+   if(el.querySelector('.prev').checked){excluded++;}else specialty+=20;
+ });
+ specialty=Math.min(20,specialty);
+ document.querySelectorAll('.activity').forEach(el=>{
+   const inp=el.querySelector('input[type=number]');
+   const hrs=inp.value.trim()===''?0:Number(inp.value);
+   const excludedCourse=el.querySelector('.prev').checked;
+   let pts=0;
+   if(!Number.isFinite(hrs)||hrs<0||!Number.isInteger(hrs))invalidHours=true;
+   else if(hrs>=100)pts=20;
+   else if(hrs>=80)pts=15;
+   else if(hrs>=40)pts=10;
+   else if(hrs>=20)pts=5;
+   if(excludedCourse){pts=0;excluded++;}
+   el.querySelector('.actpts').textContent=pts+' pts.';
+   activities+=pts;
+ });
+ activities=Math.min(35,activities);
+ const capRaw=title+specialty+activities+lang+eus;
+ const cap=Math.min(50,capRaw);
+ const as=$('asistencia').value;
+ const actsRaw=$('actos').value.trim();
+ const actsCount=Number(actsRaw);
+ const badActs=actsRaw==='' || !Number.isFinite(actsCount) || actsCount<0 || !Number.isInteger(actsCount);
+ const complete=as!=='' && !badActs && !invalidHours;
+ const actPts=badActs?0:Math.min(5,actsCount*0.5);
+ const asPts=as===''?0:Number(as);
+ const commitment=Math.min(30,actPts+asPts);
+ const total=des+cap+commitment;
+ $('b-des').textContent='20 / 20';
+ $('b-cap').textContent=fmt(cap)+' / 50';
+ $('b-com').textContent=fmt(commitment)+' / 30';
+ [['b-des',1],['b-cap',cap/50],['b-com',commitment/30]].forEach(([i,p])=>$(i).parentElement.style.setProperty('--p',p));
+ $('details').textContent=`Capacitación: titulación ${title} · especialización ${specialty} · perfeccionamiento ${activities} · idiomas ${lang} · euskera ${eus}. ${capRaw>50?'Aplicado el máximo global de 50 puntos. ':''}Compromiso: asistencia ${as===''?'pendiente':fmt(asPts)} · actos ${badActs?'pendiente':fmt(actPts)}; tope global 30.`;
+ $('total').textContent=fmt(total);
+ $('bar').style.width=Math.min(100,total)+'%';
+ const status=$('status');status.className='status';
+ if(!complete){status.textContent='PUNTUACIÓN PARCIAL · Sigue añadiendo méritos. El resultado definitivo requiere completar los datos pendientes.';}
+ else if(total>50){status.textContent='RESULTADO POSITIVO · Superas los 50 puntos.';status.classList.add('ok');}
+ else {status.textContent=`RESULTADO NO POSITIVO · Necesitas superar los 50 puntos (mínimo 51 si el resultado es entero).`;status.classList.add('no');}
+ $('bar').className=status.classList.contains('ok')?'ok':status.classList.contains('no')?'no':'';
+ const warnings=[];
+ if(excluded) warnings.push(`${excluded} curso(s) o actividad(es) ya computados excluidos del cálculo.`);
+ if(invalidHours) warnings.push('Introduce horas lectivas como número entero igual o superior a cero.');
+ if(badActs) warnings.push('El número de actos debe ser entero y no negativo.');
+ $('warnings').classList.toggle('hide',warnings.length===0);
+ $('warnings').textContent=warnings.join(' ');
+}
+
+function resetAll(){document.querySelectorAll('input').forEach(x=>{if(x.type==='checkbox')x.checked=false;else x.value='';});document.querySelectorAll('select').forEach(x=>x.selectedIndex=0);$('courses').innerHTML='';$('activities').innerHTML='';$('degree-note').textContent='0 / 40 puntos en titulaciones.';$('asistencia').value='';$('actos').value='0';$('nivel').disabled=false;mode='';$('form').classList.add('hide');$('subalert').classList.add('hide');$('enc').classList.remove('active');$('sub').classList.remove('active');$('result-title').textContent='Selecciona una modalidad';$('total').textContent='—';$('bar').style.width='0%';$('status').className='status';$('status').textContent='Introduce los datos para calcular el resultado.';['b-des','b-cap','b-com'].forEach((id,i)=>{$(id).textContent='— / '+[20,50,30][i];$(id).parentElement.style.setProperty('--p',0);});$('bar').className='';$('details').textContent='';$('warnings').classList.add('hide');$('auto-desempeno').textContent='20 / 20 puntos';$('des-note').textContent='20 puntos asignados automáticamente desde el inicio.';}
+document.querySelectorAll('#form input,#form select').forEach(el=>{el.addEventListener('input',update);el.addEventListener('change',update);});
+</script></body></html>
