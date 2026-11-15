@@ -1,0 +1,1211 @@
+[
+  {
+    "id": "t1-1",
+    "topic": 1,
+    "prompt": "¿Qué artículo de la Declaración Universal prohíbe la tortura?",
+    "options": [
+      "5",
+      "3",
+      "9",
+      "12"
+    ],
+    "explanation": "El artículo 5 prohíbe la tortura y los tratos o penas crueles, inhumanos o degradantes.",
+    "reference": "DUDH, art. 5"
+  },
+  {
+    "id": "t1-2",
+    "topic": 1,
+    "prompt": "¿Qué protege la presunción de inocencia en la Declaración Universal?",
+    "options": [
+      "Que la culpabilidad de la persona acusada se pruebe conforme a la ley",
+      "Que toda acusación sea anónima",
+      "Que solo se investiguen delitos flagrantes",
+      "Que toda persona acusada quede exenta de juicio"
+    ],
+    "explanation": "La presunción de inocencia se mantiene hasta que se pruebe la culpabilidad conforme a la ley en juicio público con garantías.",
+    "reference": "DUDH, art. 11.1"
+  },
+  {
+    "id": "t1-3",
+    "topic": 1,
+    "prompt": "¿Qué reconoce el artículo 1 de la Declaración Universal a todos los seres humanos al nacer?",
+    "options": [
+      "Libertad e igualdad en dignidad y derechos",
+      "Igualdad de patrimonio",
+      "Una nacionalidad concreta",
+      "Capacidad para votar desde el nacimiento"
+    ],
+    "explanation": "El artículo 1 afirma que todos nacen libres e iguales en dignidad y derechos.",
+    "reference": "DUDH, art. 1"
+  },
+  {
+    "id": "t1-4",
+    "topic": 1,
+    "prompt": "¿Qué protege el artículo 3 de la Declaración Universal?",
+    "options": [
+      "Vida, libertad y seguridad de la persona",
+      "Trabajo, descanso y educación",
+      "Propiedad, matrimonio y nacionalidad",
+      "Reunión, asociación y asilo"
+    ],
+    "explanation": "El artículo 3 enumera la vida, la libertad y la seguridad de la persona.",
+    "reference": "DUDH, art. 3"
+  },
+  {
+    "id": "t1-5",
+    "topic": 1,
+    "prompt": "¿Qué práctica prohíbe expresamente el artículo 4 de la Declaración Universal?",
+    "options": [
+      "La esclavitud y la trata de esclavos",
+      "La privación de libertad por sentencia",
+      "La huelga en los servicios públicos",
+      "La expulsión de extranjeros en todo caso"
+    ],
+    "explanation": "La esclavitud y la trata de esclavos quedan prohibidas en todas sus formas.",
+    "reference": "DUDH, art. 4"
+  },
+  {
+    "id": "t1-6",
+    "topic": 1,
+    "prompt": "¿Qué reconocimiento garantiza el artículo 6 de la Declaración Universal?",
+    "options": [
+      "El de la personalidad jurídica en todas partes",
+      "El de una nacionalidad elegida por la persona",
+      "El de la condición de refugiado automáticamente",
+      "El de un cargo público por nacimiento"
+    ],
+    "explanation": "Todo ser humano tiene derecho al reconocimiento de su personalidad jurídica.",
+    "reference": "DUDH, art. 6"
+  },
+  {
+    "id": "t1-7",
+    "topic": 1,
+    "prompt": "¿Qué derecho establece el artículo 8 de la Declaración Universal frente a actos que vulneran derechos fundamentales reconocidos por la Constitución o la ley?",
+    "options": [
+      "Un recurso efectivo ante los tribunales nacionales competentes",
+      "Un recurso automático ante la Asamblea General de la ONU",
+      "La revisión del caso por una autoridad extranjera",
+      "Una indemnización fijada directamente por la ONU"
+    ],
+    "explanation": "El artículo 8 reconoce un recurso efectivo ante tribunales nacionales competentes.",
+    "reference": "DUDH, art. 8"
+  },
+  {
+    "id": "t1-8",
+    "topic": 1,
+    "prompt": "¿Qué calificación utiliza la Declaración Universal al prohibir la detención, la prisión y el destierro?",
+    "options": [
+      "Arbitrarios",
+      "Preventivos",
+      "Administrativos",
+      "Temporales"
+    ],
+    "explanation": "El artículo 9 prohíbe que se detenga, se prenda o se destierre arbitrariamente.",
+    "reference": "DUDH, art. 9"
+  },
+  {
+    "id": "t1-9",
+    "topic": 1,
+    "prompt": "¿Qué características debe reunir el tribunal según el artículo 10 de la Declaración Universal?",
+    "options": [
+      "Ser independiente e imparcial",
+      "Ser siempre militar y colegiado",
+      "Estar integrado solo por jurados",
+      "Depender del órgano que presenta la acusación"
+    ],
+    "explanation": "La persona tiene derecho a ser oída públicamente y con justicia por un tribunal independiente e imparcial.",
+    "reference": "DUDH, art. 10"
+  },
+  {
+    "id": "t1-10",
+    "topic": 1,
+    "prompt": "¿Qué prohíbe el artículo 12 de la Declaración Universal respecto de la correspondencia?",
+    "options": [
+      "Las injerencias arbitrarias",
+      "El uso de correspondencia electrónica",
+      "El envío de cartas al extranjero",
+      "Toda regulación postal"
+    ],
+    "explanation": "El artículo protege la vida privada, la familia, el domicilio y la correspondencia frente a injerencias arbitrarias.",
+    "reference": "DUDH, art. 12"
+  },
+  {
+    "id": "t1-11",
+    "topic": 1,
+    "prompt": "Según la Declaración Universal, ¿puede una persona salir de su propio país?",
+    "options": [
+      "Sí, puede salir de cualquier país, incluso del propio",
+      "Solo si tiene otra nacionalidad",
+      "Solo cuando pide asilo",
+      "Solo para residir de forma permanente fuera"
+    ],
+    "explanation": "El artículo 13.2 reconoce el derecho a salir de cualquier país y a regresar al propio.",
+    "reference": "DUDH, art. 13.2"
+  },
+  {
+    "id": "t1-12",
+    "topic": 1,
+    "prompt": "¿Qué reconoce la Declaración Universal a quien sufre persecución?",
+    "options": [
+      "El derecho a buscar asilo y disfrutar de él en cualquier país",
+      "La concesión automática de una nueva nacionalidad",
+      "El derecho a elegir unilateralmente el país que debe admitirle",
+      "El derecho a exigir un cargo público en el país de acogida"
+    ],
+    "explanation": "El artículo 14.1 reconoce el derecho a buscar asilo y disfrutar de él. El apartado segundo recoge límites a su invocación.",
+    "reference": "DUDH, art. 14"
+  },
+  {
+    "id": "t1-13",
+    "topic": 1,
+    "prompt": "¿Qué dice la Declaración Universal sobre el cambio de nacionalidad?",
+    "options": [
+      "Nadie será privado arbitrariamente del derecho a cambiarla",
+      "Solo puede cambiarse al contraer matrimonio",
+      "Se pierde siempre al residir en el extranjero",
+      "Está prohibido cambiarla después de la mayoría de edad"
+    ],
+    "explanation": "El artículo 15 prohíbe privar arbitrariamente de la nacionalidad o del derecho a cambiarla.",
+    "reference": "DUDH, art. 15"
+  },
+  {
+    "id": "t1-14",
+    "topic": 1,
+    "prompt": "¿Qué condición exige la Declaración Universal para contraer matrimonio?",
+    "options": [
+      "El consentimiento libre y pleno de los futuros esposos",
+      "La autorización del empleador",
+      "La coincidencia de nacionalidades",
+      "El consentimiento de la comunidad religiosa"
+    ],
+    "explanation": "El artículo 16.2 exige el consentimiento libre y pleno de quienes van a casarse.",
+    "reference": "DUDH, art. 16.2"
+  },
+  {
+    "id": "t1-15",
+    "topic": 1,
+    "prompt": "¿Puede una persona ser obligada a pertenecer a una asociación según la Declaración Universal?",
+    "options": [
+      "No",
+      "Sí, si la asociación es cultural",
+      "Sí, por el mero hecho de residir en un municipio",
+      "Sí, si es mayor de edad"
+    ],
+    "explanation": "El artículo 20.2 establece que nadie puede ser obligado a pertenecer a una asociación.",
+    "reference": "DUDH, art. 20.2"
+  },
+  {
+    "id": "t1-16",
+    "topic": 1,
+    "prompt": "¿En qué condiciones reconoce la Declaración Universal el acceso a las funciones públicas del propio país?",
+    "options": [
+      "En condiciones de igualdad",
+      "Solo por designación hereditaria",
+      "Siempre por sorteo",
+      "Solo por pertenencia a un partido"
+    ],
+    "explanation": "El artículo 21.2 reconoce el acceso en condiciones de igualdad a las funciones públicas del país propio.",
+    "reference": "DUDH, art. 21.2"
+  },
+  {
+    "id": "t1-17",
+    "topic": 1,
+    "prompt": "¿Qué derecho salarial reconoce la Declaración Universal para trabajos iguales?",
+    "options": [
+      "Igual salario sin discriminación",
+      "Salario idéntico para todos los puestos",
+      "Igual salario solo dentro de cada sindicato",
+      "Salario fijado exclusivamente por antigüedad"
+    ],
+    "explanation": "El artículo 23.2 garantiza igual salario por trabajo igual, sin discriminación.",
+    "reference": "DUDH, art. 23.2"
+  },
+  {
+    "id": "t1-18",
+    "topic": 1,
+    "prompt": "¿Qué enseñanza declara obligatoria la Declaración Universal?",
+    "options": [
+      "La elemental",
+      "La universitaria",
+      "La secundaria en todos sus niveles",
+      "La formación profesional superior"
+    ],
+    "explanation": "El artículo 26.1 dispone que la instrucción elemental será obligatoria.",
+    "reference": "DUDH, art. 26.1"
+  },
+  {
+    "id": "t1-19",
+    "topic": 1,
+    "prompt": "¿Quién puede presentar una demanda individual ante el Tribunal Europeo de Derechos Humanos si se considera víctima de una violación del Convenio?",
+    "options": [
+      "Una persona física, una organización no gubernamental o un grupo de particulares",
+      "Solo un Estado parte",
+      "Solo un órgano judicial nacional",
+      "Solo un ciudadano de la Unión Europea"
+    ],
+    "explanation": "El artículo 34 permite demandar a esas personas y entidades si se consideran víctimas de una violación imputable a un Estado parte.",
+    "reference": "CEDH, art. 34"
+  },
+  {
+    "id": "t1-20",
+    "topic": 1,
+    "prompt": "¿Qué vías deben agotarse, como regla general, antes de acudir al Tribunal Europeo de Derechos Humanos?",
+    "options": [
+      "Los recursos internos disponibles y efectivos",
+      "Las consultas ante el Parlamento Europeo",
+      "Los recursos de todos los países del Consejo de Europa",
+      "Una petición ante la Asamblea General de la ONU"
+    ],
+    "explanation": "El requisito de agotamiento de los recursos internos da al Estado la oportunidad de remediar antes la vulneración alegada.",
+    "reference": "CEDH, art. 35.1"
+  },
+  {
+    "id": "t1-lectura-527",
+    "topic": 1,
+    "prompt": "Completa el fragmento del temario: «Ninguna de las disposiciones de los artículos 10, 11 y 14 podrá ser _____ en el sentido de que prohíbe a las Altas Partes Contratantes imponer restricciones a la actividad política de los extranjeros.»",
+    "options": [
+      "interpretada",
+      "silenciada",
+      "consensuada",
+      "recortada"
+    ],
+    "explanation": "El fragmento del temario dice: «Ninguna de las disposiciones de los artículos 10, 11 y 14 podrá ser interpretada en el sentido de que prohíbe a las Altas Partes Contratantes imponer restricciones a la actividad política de los extranjeros.».",
+    "reference": "Temario XXXV Promoción · Tema 1 · art. 16"
+  },
+  {
+    "id": "t2-1",
+    "topic": 2,
+    "prompt": "¿Qué derecho reconoce el artículo 24.1 de la Constitución?",
+    "options": [
+      "Tutela judicial efectiva",
+      "Libertad sindical",
+      "Derecho de petición",
+      "Libertad de residencia"
+    ],
+    "explanation": "La tutela judicial efectiva protege el ejercicio de derechos e intereses legítimos ante jueces y tribunales.",
+    "reference": "Constitución, art. 24.1"
+  },
+  {
+    "id": "t2-2",
+    "topic": 2,
+    "prompt": "¿Qué recurso puede proteger ante el Tribunal Constitucional los derechos comprendidos en el artículo 53.2?",
+    "options": [
+      "Amparo",
+      "Alzada",
+      "Reposición",
+      "Revisión de oficio"
+    ],
+    "explanation": "El recurso de amparo protege los derechos comprendidos en ese precepto, en los términos que establece la ley.",
+    "reference": "Constitución, art. 53.2"
+  },
+  {
+    "id": "t2-lectura-218",
+    "topic": 2,
+    "prompt": "Completa el fragmento del temario: «Se reconoce el derecho de _____.»",
+    "options": [
+      "asociación",
+      "inmovilidad",
+      "discusión",
+      "demostración"
+    ],
+    "explanation": "El fragmento del temario dice: «Se reconoce el derecho de asociación.».",
+    "reference": "Temario XXXV Promoción · Tema 2 · art. 22"
+  },
+  {
+    "id": "t3-1",
+    "topic": 3,
+    "prompt": "¿Qué administraciones incluye expresamente el decreto vasco de igualdad en su ámbito general?",
+    "options": [
+      "Autonómica, foral y local",
+      "Solo autonómica y foral",
+      "Solo foral y local",
+      "Solo autonómica y local"
+    ],
+    "explanation": "El artículo 2 incluye los tres niveles y sus organismos y entes públicos vinculados.",
+    "reference": "Decreto Legislativo 1/2023, art. 2"
+  },
+  {
+    "id": "t3-lectura-1201",
+    "topic": 3,
+    "prompt": "Completa el fragmento del temario: «Artículo 21. Procesos _____ jurados. Las normas o actos administrativos que regulen estos procesos de acceso, provisión y promoción en el empleo público deben incluir medidas para promover la igualdad de mujeres y hombres.»",
+    "options": [
+      "selectivos y",
+      "estratégico en",
+      "comunicarse en",
+      "trabajar más"
+    ],
+    "explanation": "La frase completa es: «Artículo 21. Procesos selectivos y jurados. Las normas o actos administrativos que regulen estos procesos de acceso, provisión y promoción en el empleo público deben incluir medidas para promover la igualdad de mujeres y hombres.».",
+    "reference": "Temario XXXV Promoción · Tema 3 · art. 21"
+  },
+  {
+    "id": "t4-1",
+    "topic": 4,
+    "prompt": "¿Qué deber subsiste tras finalizar la relación con quien trata datos personales?",
+    "options": [
+      "El deber de confidencialidad",
+      "La obligación de conservar todas las copias",
+      "La obligación de renovar el consentimiento",
+      "La obligación de ceder los datos al sucesor"
+    ],
+    "explanation": "La confidencialidad continúa aunque termine la relación con el responsable o encargado.",
+    "reference": "LO 3/2018, art. 5"
+  },
+  {
+    "id": "t4-lectura-258",
+    "topic": 4,
+    "prompt": "Completa el fragmento del temario: «Los derechos reconocidos en los artículos 15 a 22 del Reglamento (UE) 2016/679, podrán _____ directamente o por medio de representante legal o voluntario.»",
+    "options": [
+      "ejercerse",
+      "responsable",
+      "nombre",
+      "derivarse"
+    ],
+    "explanation": "El fragmento del temario dice: «Los derechos reconocidos en los artículos 15 a 22 del Reglamento (UE) 2016/679, podrán ejercerse directamente o por medio de representante legal o voluntario.».",
+    "reference": "Temario XXXV Promoción · Tema 4 · art. 12"
+  },
+  {
+    "id": "t5-1",
+    "topic": 5,
+    "prompt": "¿Qué regula la Ley vasca 16/2023 además del régimen jurídico de la Autoridad Vasca de Protección de Datos?",
+    "options": [
+      "El control y la supervisión de los tratamientos incluidos en su ámbito",
+      "La inscripción de los nacimientos en el Registro Civil",
+      "El acceso general a los archivos históricos",
+      "La seguridad de las comunicaciones judiciales exclusivamente"
+    ],
+    "explanation": "El artículo 1 establece ambas finalidades.",
+    "reference": "Ley 16/2023, art. 1"
+  },
+  {
+    "id": "t5-lectura-370",
+    "topic": 5,
+    "prompt": "Completa el fragmento del temario: «Las directrices serán en todo caso de obligado _____.»",
+    "options": [
+      "cumplimiento",
+      "urbanismo",
+      "itinerario",
+      "marisqueo"
+    ],
+    "explanation": "El fragmento del temario dice: «Las directrices serán en todo caso de obligado cumplimiento.».",
+    "reference": "Temario XXXV Promoción · Tema 5 · art. 14"
+  },
+  {
+    "id": "t6-1",
+    "topic": 6,
+    "prompt": "Si un plazo administrativo se fija en días hábiles, ¿qué días se excluyen?",
+    "options": [
+      "Sábados, domingos y festivos",
+      "Solo domingos y festivos",
+      "Solo festivos estatales",
+      "Solo sábados y domingos"
+    ],
+    "explanation": "La Ley 39/2015 excluye los sábados, los domingos y los declarados festivos.",
+    "reference": "Ley 39/2015, art. 30.2"
+  },
+  {
+    "id": "t6-2",
+    "topic": 6,
+    "prompt": "Como regla general, ¿desde cuándo se cuenta un plazo administrativo señalado por días tras una notificación?",
+    "options": [
+      "Desde el día siguiente a la notificación",
+      "Desde el mismo día",
+      "Desde la semana siguiente",
+      "Desde el primer día del mes siguiente"
+    ],
+    "explanation": "El artículo 30.3 fija el comienzo del cómputo a partir del día siguiente a la notificación o publicación.",
+    "reference": "Ley 39/2015, art. 30.3"
+  },
+  {
+    "id": "t6-lectura-614",
+    "topic": 6,
+    "prompt": "Completa el fragmento del temario: «Quienes, de conformidad con el artículo 3, tienen _____ de obrar ante las Administraciones Públicas son titulares, entre otros, del derecho a comunicarse con ellas a través de un Punto de Acceso General electrónico de la Administración.»",
+    "options": [
+      "capacidad",
+      "cualidad",
+      "afinidad",
+      "enemistad"
+    ],
+    "explanation": "La frase completa es: «Quienes, de conformidad con el artículo 3, tienen capacidad de obrar ante las Administraciones Públicas son titulares, entre otros, del derecho a comunicarse con ellas a través de un Punto de Acceso General electrónico de la Administración.».",
+    "reference": "Temario XXXV Promoción · Tema 6 · art. 13"
+  },
+  {
+    "id": "t7-1",
+    "topic": 7,
+    "prompt": "¿Qué enfoque persigue la Ley Orgánica 10/2022 frente a las violencias sexuales?",
+    "options": [
+      "Una garantía integral de la libertad sexual y la erradicación de las violencias sexuales",
+      "Una regulación limitada a la fase de juicio",
+      "Un sistema de mediación como respuesta general",
+      "Un régimen limitado a infracciones administrativas"
+    ],
+    "explanation": "La ley aborda la garantía de la libertad sexual y la respuesta a las violencias sexuales con un enfoque integral.",
+    "reference": "LO 10/2022, art. 1"
+  },
+  {
+    "id": "t7-lectura-281",
+    "topic": 7,
+    "prompt": "Completa el fragmento del temario: «Todas las políticas que se adopten en ejecución de la presente ley orgánica se aplicarán por _____ de una cooperación efectiva entre todas las administraciones públicas, instituciones y organizaciones implicadas en la lucha contra las violencias sexuales.»",
+    "options": [
+      "medio",
+      "recogido",
+      "anexo",
+      "casco"
+    ],
+    "explanation": "El fragmento del temario dice: «Todas las políticas que se adopten en ejecución de la presente ley orgánica se aplicarán por medio de una cooperación efectiva entre todas las administraciones públicas, instituciones y organizaciones implicadas en la lucha contra las violencias sexuales.».",
+    "reference": "Temario XXXV Promoción · Tema 7 · art. 2"
+  },
+  {
+    "id": "t8-1",
+    "topic": 8,
+    "prompt": "Una persona menor de edad se encuentra temporalmente en Euskadi. ¿Influye su nacionalidad en el ámbito general de la ley vasca de infancia?",
+    "options": [
+      "La ley se aplica con independencia de su nacionalidad",
+      "Solo se aplica a menores con nacionalidad española",
+      "Solo se aplica a menores nacidos en Euskadi",
+      "Solo se aplica con residencia permanente"
+    ],
+    "explanation": "El artículo 2 incluye a menores que residan o se encuentren en Euskadi, con independencia de nacionalidad, origen y situación administrativa.",
+    "reference": "Ley 2/2024, art. 2"
+  },
+  {
+    "id": "t8-lectura-477",
+    "topic": 8,
+    "prompt": "Completa el fragmento del temario: «La actuación de la Ertzaintza y de la Policía local ante _____ de violencia ejercida sobre la infancia y la adolescencia se regirá por el respeto a los derechos de las personas menores y la consideración de su interés superior como primordial en todas las acciones y decisiones que les conciernan, y actuarán de conformidad con los protocolos de actuación policial con personas menores de edad, así como con los protocolos de actuación policial en casos de violencia doméstica o de género, cuando estos sean aplicables.»",
+    "options": [
+      "situaciones",
+      "contenedores",
+      "prescripciones",
+      "perturbaciones"
+    ],
+    "explanation": "La frase completa es: «La actuación de la Ertzaintza y de la Policía local ante situaciones de violencia ejercida sobre la infancia y la adolescencia se regirá por el respeto a los derechos de las personas menores y la consideración de su interés superior como primordial en todas las acciones y decisiones que les conciernan, y actuarán de conformidad con los protocolos de actuación policial con personas menores de edad, así como con los protocolos de actuación policial en casos de violencia doméstica o de género, cuando estos sean aplicables.».",
+    "reference": "Temario XXXV Promoción · Tema 8 · art. 151"
+  },
+  {
+    "id": "t9-1",
+    "topic": 9,
+    "prompt": "¿Qué colectivo menciona expresamente la Ley 4/2023 junto con las personas trans en su objeto?",
+    "options": [
+      "Las personas LGTBI",
+      "Solo las personas con discapacidad",
+      "Solo los menores tutelados",
+      "Solo los trabajadores por cuenta propia"
+    ],
+    "explanation": "La ley persigue garantizar la igualdad real y efectiva de las personas trans y los derechos de las personas LGTBI.",
+    "reference": "Ley 4/2023, art. 1"
+  },
+  {
+    "id": "t9-lectura-820",
+    "topic": 9,
+    "prompt": "Completa el fragmento del temario: «Entre las funciones de la Comisión Estatal está la realización de _____ a promover e impulsar acciones de prevención contra la actuación violenta en los acontecimientos deportivos.»",
+    "options": [
+      "actuaciones dirigidas",
+      "tendrá consecuencias",
+      "entonces patriotas",
+      "diferentes intentonas"
+    ],
+    "explanation": "La frase completa es: «Entre las funciones de la Comisión Estatal está la realización de actuaciones dirigidas a promover e impulsar acciones de prevención contra la actuación violenta en los acontecimientos deportivos.».",
+    "reference": "Temario XXXV Promoción · Tema 9 · art. 82"
+  },
+  {
+    "id": "t10-1",
+    "topic": 10,
+    "prompt": "¿Qué criterio rige la consideración de persona transexual o transgénero a efectos de la ley vasca?",
+    "options": [
+      "La libre autodeterminación de la identidad sexual o de género",
+      "Una resolución judicial constitutiva",
+      "La nacionalidad española",
+      "La realización previa de una intervención quirúrgica"
+    ],
+    "explanation": "El artículo 3 se refiere expresamente a la libre autodeterminación.",
+    "reference": "Ley 4/2024, art. 3"
+  },
+  {
+    "id": "t11-1",
+    "topic": 11,
+    "prompt": "¿Qué institución de la UE define las orientaciones y prioridades políticas generales?",
+    "options": [
+      "Consejo Europeo",
+      "Consejo de Europa",
+      "Tribunal de Justicia",
+      "Banco Central Europeo"
+    ],
+    "explanation": "El Consejo Europeo da a la Unión los impulsos necesarios y define sus orientaciones y prioridades generales.",
+    "reference": "Tratado de la Unión Europea, art. 15"
+  },
+  {
+    "id": "t11-2",
+    "topic": 11,
+    "prompt": "¿Qué institución de la Unión Europea ejerce junto al Consejo la función legislativa?",
+    "options": [
+      "Parlamento Europeo",
+      "Consejo Europeo",
+      "Tribunal de Cuentas",
+      "Comité de las Regiones"
+    ],
+    "explanation": "El Parlamento Europeo ejerce conjuntamente con el Consejo las funciones legislativa y presupuestaria.",
+    "reference": "Tratado de la Unión Europea, art. 14"
+  },
+  {
+    "id": "t12-1",
+    "topic": 12,
+    "prompt": "¿Qué entidades enumera el artículo 137 de la Constitución?",
+    "options": [
+      "Municipios, provincias y comunidades autónomas",
+      "Municipios, comarcas y provincias",
+      "Provincias, islas y partidos judiciales",
+      "Comunidades autónomas y territorios históricos exclusivamente"
+    ],
+    "explanation": "El artículo 137 enumera esos tres niveles y reconoce su autonomía para gestionar sus intereses.",
+    "reference": "Constitución, art. 137"
+  },
+  {
+    "id": "t12-2",
+    "topic": 12,
+    "prompt": "¿Qué entidad local define la Constitución como agrupación de municipios y división territorial para las actividades del Estado?",
+    "options": [
+      "Provincia",
+      "Comarca",
+      "Isla",
+      "Mancomunidad"
+    ],
+    "explanation": "La provincia tiene personalidad jurídica propia y se determina por la agrupación de municipios.",
+    "reference": "Constitución, art. 141.1"
+  },
+  {
+    "id": "t13-1",
+    "topic": 13,
+    "prompt": "¿Qué lengua, junto con el castellano, es oficial en Euskadi según el Estatuto de Gernika?",
+    "options": [
+      "Euskera",
+      "Gallego",
+      "Aranés",
+      "Catalán"
+    ],
+    "explanation": "El Estatuto reconoce el euskera como lengua propia del pueblo vasco y su carácter oficial junto al castellano.",
+    "reference": "Estatuto de Autonomía, art. 6"
+  },
+  {
+    "id": "t14-1",
+    "topic": 14,
+    "prompt": "¿Cuándo existe Junta de Gobierno Local por razón de población, sin acuerdo específico?",
+    "options": [
+      "En municipios de más de 5.000 habitantes",
+      "Desde 3.000 habitantes",
+      "Desde 10.000 habitantes",
+      "Solo en municipios de gran población"
+    ],
+    "explanation": "Por debajo de ese umbral también puede existir si lo dispone el reglamento orgánico o lo acuerda el Pleno.",
+    "reference": "Ley 7/1985, art. 20.1.b"
+  },
+  {
+    "id": "t14-2",
+    "topic": 14,
+    "prompt": "¿Cuáles son los elementos del municipio?",
+    "options": [
+      "Territorio, población y organización",
+      "Alcaldía, pleno y diputación",
+      "Territorio, presupuesto y patrimonio",
+      "Vecindad, provincia y comarca"
+    ],
+    "explanation": "La Ley de Bases enumera territorio, población y organización como elementos del municipio.",
+    "reference": "Ley 7/1985, art. 11.2"
+  },
+  {
+    "id": "t15-1",
+    "topic": 15,
+    "prompt": "Como regla general, ¿puede un órgano renunciar a su competencia?",
+    "options": [
+      "No, la competencia es irrenunciable",
+      "Sí, si lo comunica por escrito",
+      "Sí, si lo pide el interesado",
+      "Sí, mediante una delegación definitiva de la titularidad"
+    ],
+    "explanation": "La competencia se ejerce por el órgano que la tiene atribuida, con las salvedades legales de delegación o avocación.",
+    "reference": "Ley 40/2015, art. 8.1"
+  },
+  {
+    "id": "t15-2",
+    "topic": 15,
+    "prompt": "¿Puede la persona interesada promover recusación durante la tramitación?",
+    "options": [
+      "Sí, en cualquier momento de la tramitación",
+      "Solo antes de que empiece el procedimiento",
+      "Solo después de que la resolución sea firme",
+      "Solo si el órgano lo pide primero"
+    ],
+    "explanation": "La recusación puede plantearse durante la tramitación mediante escrito que exprese la causa.",
+    "reference": "Ley 40/2015, art. 24"
+  },
+  {
+    "id": "t16-1",
+    "topic": 16,
+    "prompt": "¿Cómo se clasifican los bienes de las entidades locales en la división básica?",
+    "options": [
+      "De dominio público y patrimoniales",
+      "Estatales y autonómicos",
+      "Ordinarios y extraordinarios",
+      "Tributarios y no tributarios"
+    ],
+    "explanation": "La Ley de Bases distingue bienes de dominio público y bienes patrimoniales.",
+    "reference": "Ley 7/1985, art. 79"
+  },
+  {
+    "id": "t17-1",
+    "topic": 17,
+    "prompt": "¿Qué regula directamente el Decreto 318/2024?",
+    "options": [
+      "La estructura orgánica y funcional del Departamento de Seguridad",
+      "La estructura del Parlamento Vasco",
+      "El régimen electoral de los municipios",
+      "El catálogo de servicios sanitarios"
+    ],
+    "explanation": "El decreto distribuye los órganos y atribuciones del Departamento de Seguridad.",
+    "reference": "Decreto 318/2024, caps. I y siguientes"
+  },
+  {
+    "id": "t18-1",
+    "topic": 18,
+    "prompt": "¿Qué principio impide a un reglamento contradecir una ley?",
+    "options": [
+      "Jerarquía normativa",
+      "Publicidad de las sesiones",
+      "Cooperación interadministrativa",
+      "Igualdad de armas"
+    ],
+    "explanation": "El rango inferior del reglamento impide que contradiga o desplace lo dispuesto por una ley.",
+    "reference": "Constitución, art. 9.3; tema 18"
+  },
+  {
+    "id": "t19-1",
+    "topic": 19,
+    "prompt": "¿Qué tipo de invalidez tiene un acto de contenido imposible?",
+    "options": [
+      "Nulidad de pleno derecho",
+      "Anulabilidad en todo caso",
+      "Irregularidad sin efecto invalidante",
+      "Caducidad del procedimiento"
+    ],
+    "explanation": "El contenido imposible es una causa expresa de nulidad de pleno derecho.",
+    "reference": "Ley 39/2015, art. 47.1.c"
+  },
+  {
+    "id": "t19-2",
+    "topic": 19,
+    "prompt": "¿Qué presunción tienen, en general, los actos administrativos sujetos a Derecho Administrativo?",
+    "options": [
+      "Se presumen válidos",
+      "Se presumen nulos hasta la ratificación",
+      "Se presumen anulables hasta el registro",
+      "Carecen de efectos hasta que sean firmes"
+    ],
+    "explanation": "Los actos se presumen válidos y, como regla general, producen efectos desde la fecha en que se dictan.",
+    "reference": "Ley 39/2015, art. 39.1"
+  },
+  {
+    "id": "t20-1",
+    "topic": 20,
+    "prompt": "¿Qué ocurre con la condición de interesado si deriva de una relación jurídica transmisible?",
+    "options": [
+      "El derechohabiente sucede en esa condición cualquiera que sea el estado del procedimiento",
+      "La condición se extingue al transmitirse",
+      "La sucesión solo procede antes del inicio",
+      "La sucesión exige siempre iniciar otro procedimiento"
+    ],
+    "explanation": "La ley mantiene la continuidad de la condición de interesado cuando la relación es transmisible.",
+    "reference": "Ley 39/2015, art. 4.3"
+  },
+  {
+    "id": "t20-2",
+    "topic": 20,
+    "prompt": "¿Para qué actuación exige la ley acreditar la representación?",
+    "options": [
+      "Interponer un recurso",
+      "Consultar el horario de la oficina",
+      "Pedir información general",
+      "Realizar cualquier gestión de mero trámite"
+    ],
+    "explanation": "Para interponer recursos se acredita la representación. En las gestiones de mero trámite se presume.",
+    "reference": "Ley 39/2015, art. 5.3"
+  },
+  {
+    "id": "t21-1",
+    "topic": 21,
+    "prompt": "Para que un daño sea indemnizable por responsabilidad patrimonial, ¿qué características debe reunir?",
+    "options": [
+      "Ser efectivo, evaluable económicamente e individualizado",
+      "Ser hipotético y de alcance general",
+      "Ser exclusivamente físico",
+      "Ser solo de carácter colectivo"
+    ],
+    "explanation": "El daño debe ser efectivo, evaluable económicamente e individualizado respecto a una persona o grupo.",
+    "reference": "Ley 40/2015, art. 32.2"
+  },
+  {
+    "id": "t22-1",
+    "topic": 22,
+    "prompt": "¿Se aplica retroactivamente una ley penal que favorece al reo, aunque haya sentencia firme y esté cumpliendo condena?",
+    "options": [
+      "Sí",
+      "Solo si el juicio todavía no ha empezado",
+      "Solo si no existe sentencia firme",
+      "No, nunca"
+    ],
+    "explanation": "La retroactividad favorable alcanza incluso a quien está cumpliendo una condena firme.",
+    "reference": "Código Penal, art. 2.2"
+  },
+  {
+    "id": "t23-1",
+    "topic": 23,
+    "prompt": "¿Cuándo se castigan las acciones u omisiones imprudentes?",
+    "options": [
+      "Cuando lo disponga expresamente la ley",
+      "Siempre que se castigue la misma acción dolosa",
+      "Solo cuando lo solicite la víctima",
+      "En todos los delitos graves"
+    ],
+    "explanation": "El Código Penal exige una previsión expresa para castigar la imprudencia.",
+    "reference": "Código Penal, art. 12"
+  },
+  {
+    "id": "t23-2",
+    "topic": 23,
+    "prompt": "¿Qué formas de comisión recoge la definición legal de delito?",
+    "options": [
+      "Acciones y omisiones dolosas o imprudentes penadas por la ley",
+      "Solo acciones dolosas",
+      "Solo omisiones imprudentes",
+      "Cualquier conducta socialmente reprochable"
+    ],
+    "explanation": "El precepto incluye acciones y omisiones dolosas o imprudentes cuando la ley las pena.",
+    "reference": "Código Penal, art. 10"
+  },
+  {
+    "id": "t24-1",
+    "topic": 24,
+    "prompt": "Según el Código Penal, ¿qué régimen se aplica en principio a una persona de 17 años?",
+    "options": [
+      "No responde con arreglo al Código Penal y puede responder conforme a la ley de menores",
+      "Responde siempre como un adulto",
+      "Está exenta de toda posible responsabilidad",
+      "Responde como adulto si el delito es doloso"
+    ],
+    "explanation": "El artículo 19 remite a la ley que regula la responsabilidad penal de los menores.",
+    "reference": "Código Penal, art. 19"
+  },
+  {
+    "id": "t25-1",
+    "topic": 25,
+    "prompt": "¿Qué circunstancia puede atenuar la responsabilidad penal si se produce antes de conocer que el procedimiento se dirige contra la persona?",
+    "options": [
+      "Confesar la infracción a las autoridades",
+      "Actuar por motivos discriminatorios",
+      "Obrar con abuso de superioridad",
+      "Aprovechar un disfraz"
+    ],
+    "explanation": "La confesión previa a conocer que se dirige el procedimiento contra la persona figura como atenuante.",
+    "reference": "Código Penal, art. 21.4"
+  },
+  {
+    "id": "t26-1",
+    "topic": 26,
+    "prompt": "¿Quién coopera en la ejecución con un acto sin el cual el hecho no se habría efectuado?",
+    "options": [
+      "Una persona considerada autora por cooperación necesaria",
+      "Una persona cómplice en todo caso",
+      "Una persona encubridora",
+      "Una persona testigo"
+    ],
+    "explanation": "El artículo 28 considera autor también a quien coopera con un acto necesario.",
+    "reference": "Código Penal, art. 28.b"
+  },
+  {
+    "id": "t27-1",
+    "topic": 27,
+    "prompt": "¿Puede aplicarse el Reglamento General de Circulación en terreno privado?",
+    "options": [
+      "Sí, si lo utiliza una colectividad indeterminada, con las salvedades previstas",
+      "Nunca",
+      "Solo si el titular es una administración",
+      "Solo si hay tráfico de transporte público"
+    ],
+    "explanation": "El ámbito incluye terrenos privados utilizados por una colectividad indeterminada de usuarios en los términos del reglamento.",
+    "reference": "Reglamento General de Circulación, art. 1"
+  },
+  {
+    "id": "t28-1",
+    "topic": 28,
+    "prompt": "¿Qué parte de la carretera está dedicada a la circulación de vehículos?",
+    "options": [
+      "Calzada",
+      "Arcén",
+      "Acera",
+      "Mediana"
+    ],
+    "explanation": "La calzada es la parte de la carretera destinada a la circulación de vehículos.",
+    "reference": "Ley de Seguridad Vial, anexo I"
+  },
+  {
+    "id": "t29-1",
+    "topic": 29,
+    "prompt": "¿Cómo se clasifica, con carácter general, una infracción de tráfico que no se califica expresamente como grave o muy grave?",
+    "options": [
+      "Leve",
+      "Grave",
+      "Muy grave",
+      "Penal"
+    ],
+    "explanation": "Las infracciones que no tienen calificación expresa de graves o muy graves se encuadran como leves.",
+    "reference": "Ley de Seguridad Vial, art. 75"
+  },
+  {
+    "id": "t30-1",
+    "topic": 30,
+    "prompt": "¿Cuál es la multa general por una infracción grave de tráfico, salvo cuantías especiales?",
+    "options": [
+      "200 euros",
+      "50 euros",
+      "100 euros",
+      "500 euros"
+    ],
+    "explanation": "La cuantía general para las infracciones graves es de 200 euros.",
+    "reference": "Ley de Seguridad Vial, art. 80.1"
+  },
+  {
+    "id": "t31-1",
+    "topic": 31,
+    "prompt": "¿Sobre quién recae, como regla general, la responsabilidad por una infracción de tráfico?",
+    "options": [
+      "La persona autora del hecho",
+      "La persona titular del vehículo en todos los casos",
+      "La aseguradora",
+      "El fabricante del vehículo"
+    ],
+    "explanation": "La regla general es la responsabilidad de la persona autora, con las excepciones previstas en la ley.",
+    "reference": "Ley de Seguridad Vial, art. 82"
+  },
+  {
+    "id": "t32-1",
+    "topic": 32,
+    "prompt": "¿Qué regla general rige la notificación de denuncias de tráfico?",
+    "options": [
+      "Se notifican en el acto a la persona denunciada, con excepciones",
+      "Se notifican siempre por correo",
+      "Se notifican solo si se recurre",
+      "Se notifican exclusivamente en el tablón edictal"
+    ],
+    "explanation": "La notificación inmediata es la regla y la ley contempla supuestos de notificación posterior.",
+    "reference": "Ley de Seguridad Vial, art. 89"
+  },
+  {
+    "id": "t33-1",
+    "topic": 33,
+    "prompt": "¿Qué debe hacer quien conduce ante un semáforo con luz roja fija?",
+    "options": [
+      "Detenerse sin rebasar la línea de detención, si existe",
+      "Continuar si no viene nadie",
+      "Rebasarlo y detenerse en el cruce",
+      "Continuar si circula por la vía principal"
+    ],
+    "explanation": "La luz roja fija prohíbe el paso y obliga a detenerse antes de la línea, cuando exista.",
+    "reference": "Tema 33, señalización y normas de circulación"
+  },
+  {
+    "id": "t34-1",
+    "topic": 34,
+    "prompt": "¿Qué efecto puede producir cometer una infracción recogida en el anexo II de la Ley de Seguridad Vial?",
+    "options": [
+      "La pérdida de los puntos previstos en el anexo",
+      "La pérdida automática de la totalidad de los puntos",
+      "La retirada definitiva del permiso en todo caso",
+      "La pérdida de un punto por cada euro de multa"
+    ],
+    "explanation": "El anexo II vincula infracciones concretas con el número de puntos correspondiente.",
+    "reference": "Ley de Seguridad Vial, anexo II"
+  },
+  {
+    "id": "t35-1",
+    "topic": 35,
+    "prompt": "¿Cómo se puede recuperar la vigencia de un permiso perdido por agotar todos los puntos?",
+    "options": [
+      "Tras los plazos exigidos, superando el curso y la prueba establecidos",
+      "Pagando de nuevo la última multa",
+      "Renovando el permiso como si hubiera caducado",
+      "Solicitándolo inmediatamente sin requisitos"
+    ],
+    "explanation": "La recuperación tras perder todos los puntos exige cumplir el régimen específico, incluido curso y prueba.",
+    "reference": "Ley de Seguridad Vial, pérdida de vigencia por puntos"
+  },
+  {
+    "id": "t36-1",
+    "topic": 36,
+    "prompt": "¿Cuál es una actuación preventiva expresamente recogida en la ley vasca de emergencias?",
+    "options": [
+      "Elaborar mapas de zonas de peligro y evaluar su vulnerabilidad",
+      "Esperar al siniestro antes de identificar riesgos",
+      "Limitar la planificación a daños ya indemnizados",
+      "Sustituir los planes por avisos improvisados"
+    ],
+    "explanation": "La identificación de zonas de peligro y su vulnerabilidad forma parte de la prevención prevista por la ley.",
+    "reference": "Decreto Legislativo 1/2017, art. 1"
+  },
+  {
+    "id": "t37-1",
+    "topic": 37,
+    "prompt": "¿Qué derecho reconoce la Ley 31/1995 a las personas trabajadoras?",
+    "options": [
+      "Protección eficaz en materia de seguridad y salud en el trabajo",
+      "Elegir si cumplen las medidas preventivas",
+      "Asumir personalmente el coste de las medidas obligatorias",
+      "Sustituir la evaluación de riesgos por su consentimiento"
+    ],
+    "explanation": "El derecho a la protección eficaz lleva aparejado el deber empresarial de protección.",
+    "reference": "Ley 31/1995, art. 14"
+  },
+  {
+    "id": "t37-2",
+    "topic": 37,
+    "prompt": "¿Puede recaer sobre las personas trabajadoras el coste de las medidas de seguridad y salud en el trabajo?",
+    "options": [
+      "No",
+      "Sí, si son temporales",
+      "Sí, hasta la mitad",
+      "Sí, si lo aprueba la empresa"
+    ],
+    "explanation": "La ley dispone que el coste de esas medidas no debe recaer sobre las personas trabajadoras.",
+    "reference": "Ley 31/1995, art. 14.5"
+  },
+  {
+    "id": "t38-1",
+    "topic": 38,
+    "prompt": "¿Qué conducta es apropiada durante la evacuación ordinaria de un edificio por incendio?",
+    "options": [
+      "Seguir las rutas indicadas y evitar los ascensores",
+      "Regresar a por objetos personales",
+      "Usar el ascensor para ahorrar tiempo",
+      "Volver a entrar cuando desaparezca el humo visible"
+    ],
+    "explanation": "El plan de emergencia orienta la salida por rutas seguras y las instrucciones del personal responsable.",
+    "reference": "Tema 38, evacuación de edificios"
+  },
+  {
+    "id": "t39-1",
+    "topic": 39,
+    "prompt": "En la regla PAS de primeros auxilios, ¿qué acción se realiza primero?",
+    "options": [
+      "Proteger",
+      "Avisar",
+      "Socorrer",
+      "Trasladar"
+    ],
+    "explanation": "PAS ordena proteger, avisar y socorrer. La primera acción busca evitar nuevos riesgos.",
+    "reference": "Tema 39, actuación inicial"
+  },
+  {
+    "id": "t40-1",
+    "topic": 40,
+    "prompt": "¿Qué acuerdo se asocia con el final de la Primera Guerra Carlista en el norte en 1839?",
+    "options": [
+      "Convenio de Bergara",
+      "Pacto de San Sebastián",
+      "Estatuto de Gernika",
+      "Tratado de Utrecht"
+    ],
+    "explanation": "El Convenio de Bergara se vincula a la finalización de la guerra en el frente norte.",
+    "reference": "Tema 40, Guerras Carlistas"
+  },
+  {
+    "id": "t41-1",
+    "topic": 41,
+    "prompt": "¿Quién presidió el primer Gobierno Vasco constituido en 1936?",
+    "options": [
+      "José Antonio Aguirre",
+      "Jesús María de Leizaola",
+      "Carlos Garaikoetxea",
+      "José Antonio Ardanza"
+    ],
+    "explanation": "José Antonio Aguirre fue el primer lehendakari del Gobierno Vasco constituido tras el Estatuto de 1936.",
+    "reference": "Tema 41, primer Gobierno Vasco"
+  },
+  {
+    "id": "t42-1",
+    "topic": 42,
+    "prompt": "¿A qué vertiente pertenece el río Nervión?",
+    "options": [
+      "Cantábrica",
+      "Mediterránea",
+      "Atlántica a través del Duero",
+      "Mediterránea a través del Ebro"
+    ],
+    "explanation": "El Nervión forma parte de la red hidrográfica de la vertiente cantábrica.",
+    "reference": "Tema 42, red hidrográfica"
+  },
+  {
+    "id": "t43-1",
+    "topic": 43,
+    "prompt": "¿Qué territorio concentraba el 52,2 % de la población vasca a 1 de enero de 2021 según el panorama del temario?",
+    "options": [
+      "Bizkaia",
+      "Álava",
+      "Gipuzkoa",
+      "Los tres a partes iguales"
+    ],
+    "explanation": "El panorama recoge un 52,2 % para Bizkaia, un 32,8 % para Gipuzkoa y un 15 % para Álava.",
+    "reference": "Panorama Demográfico 2022, población por territorios"
+  },
+  {
+    "id": "t44-1",
+    "topic": 44,
+    "prompt": "¿Qué artículo del Estatuto de Gernika recoge la regulación estatutaria sobre la Policía Autónoma?",
+    "options": [
+      "17",
+      "6",
+      "24",
+      "36"
+    ],
+    "explanation": "El artículo 17 regula la Policía Autónoma y la distribución de funciones en los términos del Estatuto.",
+    "reference": "Estatuto de Autonomía, art. 17"
+  },
+  {
+    "id": "t45-1",
+    "topic": 45,
+    "prompt": "¿Qué órganos regula el artículo 43 de la Ley 15/2012?",
+    "options": [
+      "Las comisiones de coordinación policial de ámbito local",
+      "Las juntas electorales de zona",
+      "Los juzgados de guardia",
+      "Las comisiones municipales de urbanismo"
+    ],
+    "explanation": "El precepto regula las comisiones de coordinación policial de ámbito local, desarrolladas reglamentariamente.",
+    "reference": "Ley 15/2012, art. 43"
+  },
+  {
+    "id": "t46-1",
+    "topic": 46,
+    "prompt": "¿Cuánto tiempo como máximo puede durar el traslado a dependencias a efectos de identificación en el supuesto legal?",
+    "options": [
+      "Seis horas",
+      "Dos horas",
+      "Doce horas",
+      "Veinticuatro horas"
+    ],
+    "explanation": "La permanencia se limita al tiempo estrictamente necesario y nunca puede superar las seis horas.",
+    "reference": "LO 4/2015, art. 16.2"
+  },
+  {
+    "id": "t47-1",
+    "topic": 47,
+    "prompt": "¿Qué se exige con carácter general para una manifestación en lugar de tránsito público?",
+    "options": [
+      "Comunicación previa a la autoridad gubernativa",
+      "Autorización judicial previa",
+      "Permiso expreso del ayuntamiento",
+      "Ratificación posterior por la autoridad"
+    ],
+    "explanation": "La ley establece un régimen de comunicación previa, con plazos específicos.",
+    "reference": "LO 9/1983, art. 8"
+  },
+  {
+    "id": "t47-2",
+    "topic": 47,
+    "prompt": "¿En qué intervalo se comunica ordinariamente una manifestación a la autoridad gubernativa?",
+    "options": [
+      "Entre 10 y 30 días naturales antes",
+      "Entre 3 y 10 días hábiles antes",
+      "Entre 30 y 60 días naturales antes",
+      "En las 24 horas siguientes"
+    ],
+    "explanation": "La comunicación ordinaria se presenta con un mínimo de 10 y un máximo de 30 días naturales. La ley prevé un régimen por urgencia.",
+    "reference": "LO 9/1983, art. 8"
+  },
+  {
+    "id": "t48-1",
+    "topic": 48,
+    "prompt": "¿Qué ley orgánica desarrolla el Decreto 168/1998 en materia de videocámaras policiales?",
+    "options": [
+      "LO 4/1997",
+      "LO 9/1983",
+      "LO 4/2015",
+      "LO 1/2004"
+    ],
+    "explanation": "El decreto desarrolla aspectos de la autorización, utilización y garantías del régimen de videocámaras de la LO 4/1997.",
+    "reference": "Decreto 168/1998, preámbulo"
+  },
+  {
+    "id": "t49-1",
+    "topic": 49,
+    "prompt": "¿Qué ciudades tienen comisiones de coordinación policial propias por ser capitales de territorio histórico?",
+    "options": [
+      "Bilbao, Donostia-San Sebastián y Vitoria-Gasteiz",
+      "Bilbao, Getxo y Barakaldo",
+      "Vitoria-Gasteiz, Eibar y Durango",
+      "Donostia-San Sebastián, Irun y Tolosa"
+    ],
+    "explanation": "El artículo 2 establece una comisión para cada una de las tres capitales.",
+    "reference": "Decreto 57/2015, art. 2"
+  },
+  {
+    "id": "t50-1",
+    "topic": 50,
+    "prompt": "Al recibir una queja verbal poco concreta, ¿cómo se comprueba que se ha entendido?",
+    "options": [
+      "Resumir lo expuesto y pedir confirmación",
+      "Prometer una solución antes de conocer los hechos",
+      "Interrumpir y remitir a otra oficina",
+      "Interpretar la intención sin preguntar"
+    ],
+    "explanation": "La escucha activa y la reformulación permiten identificar el problema sin presuponerlo.",
+    "reference": "Tema 50, atención y gestión de quejas"
+  },
+  {
+    "id": "t51-1",
+    "topic": 51,
+    "prompt": "¿Qué fórmula evita el masculino genérico sin duplicar palabras en un aviso?",
+    "options": [
+      "Las personas solicitantes",
+      "Los solicitantes",
+      "Los señores solicitantes",
+      "Los peticionarios"
+    ],
+    "explanation": "El uso de personas seguido de un calificativo permite una redacción inclusiva y clara.",
+    "reference": "Tema 51, lenguaje administrativo no sexista"
+  },
+  {
+    "id": "t52-1",
+    "topic": 52,
+    "prompt": "¿Qué reto destaca el plan de normalización, además de incrementar el conocimiento del euskera?",
+    "options": [
+      "Aumentar su uso efectivo",
+      "Limitarlo a los certificados",
+      "Excluirlo de la comunicación oral",
+      "Sustituir toda acreditación por la antigüedad"
+    ],
+    "explanation": "El plan señala que el aumento del conocimiento no se ha traducido en igual medida en el uso.",
+    "reference": "VI Planificación 2018–2022, directrices"
+  },
+  {
+    "id": "t53-1",
+    "topic": 53,
+    "prompt": "¿Cómo caracteriza el III Acuerdo Interinstitucional la violencia machista contra las mujeres?",
+    "options": [
+      "Como una violación de derechos humanos y un problema estructural",
+      "Como un conflicto exclusivamente privado",
+      "Como un fenómeno ajeno a la desigualdad",
+      "Como una cuestión únicamente sanitaria"
+    ],
+    "explanation": "El acuerdo vincula la violencia con la desigualdad estructural y la sitúa en el marco de los derechos humanos.",
+    "reference": "III Acuerdo Interinstitucional, exposición I y II"
+  },
+  {
+    "id": "t54-1",
+    "topic": 54,
+    "prompt": "¿Exige convivencia la LO 1/2004 cuando la violencia la ejerce una persona ligada a la mujer por una relación análoga de afectividad?",
+    "options": [
+      "No, incluye estas relaciones aun sin convivencia",
+      "Sí, al menos durante un año",
+      "Sí, en todos los casos",
+      "Solo si hay un domicilio inscrito conjuntamente"
+    ],
+    "explanation": "El objeto de la ley incluye las relaciones análogas de afectividad aun sin convivencia.",
+    "reference": "LO 1/2004, art. 1.1"
+  }
+]
