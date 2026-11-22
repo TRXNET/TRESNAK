@@ -12,6 +12,7 @@
     *{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
     html,body{width:100%;height:100%;overflow:hidden;background:var(--ink);font-family:var(--font);color:#f1f5ff;touch-action:none}
     #gameCanvas{display:block;width:100vw;height:100vh}
+    #mobileHelp,#mobile-help,.mobile-help,.mobile-instructions,.game-instructions,.instructions-panel{display:none!important}
     #hud{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));pointer-events:none;z-index:10}
     .hud-col{position:absolute;top:0;width:min(230px,46vw);display:flex;flex-direction:column;gap:6px}
     .hud-col.left{left:0}.hud-col.right{right:0;align-items:flex-end}
@@ -424,27 +425,29 @@ const SoundFX = (() => {
   }
 
   function playOuch() {
-    // "¡Ay!" o "¡Ay, ay!" sintetizado con Web Audio: suena igual en el móvil (la voz del navegador no era fiable).
+    // Quejido largo y reconocible: «¡Ay, ay, ayyyyy!» al recibir/generar un golpe.
     const c = getCtx(); if (!c) return;
     const now = c.currentTime;
-    const n = Math.random() < 0.45 ? 2 : 1;
-    const base = 220 + Math.random() * 70;
-    for (let k = 0; k < n; k++) {
-      const t0 = now + k * 0.3, dur = 0.27;
-      const osc = c.createOscillator(); osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(base * 1.1, t0);
-      osc.frequency.linearRampToValueAtTime(base * 1.5, t0 + 0.08);
-      osc.frequency.linearRampToValueAtTime(base * 1.0, t0 + dur);
+    const count = Math.random() < 0.55 ? 3 : 2;
+    const base = 235 + Math.random() * 45;
+    for (let k = 0; k < count; k++) {
+      const t0 = now + k * 0.34;
+      const dur = k === count - 1 ? 0.62 : 0.25;
+      const osc = c.createOscillator(); osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(base * 1.08, t0);
+      osc.frequency.linearRampToValueAtTime(base * 1.48, t0 + 0.11);
+      osc.frequency.linearRampToValueAtTime(base * 0.92, t0 + dur);
       const f1 = c.createBiquadFilter(), f2 = c.createBiquadFilter();
-      f1.type = "bandpass"; f2.type = "bandpass"; f1.Q.value = 5; f2.Q.value = 7;
-      f1.frequency.setValueAtTime(850, t0); f1.frequency.linearRampToValueAtTime(320, t0 + dur);
-      f2.frequency.setValueAtTime(1250, t0); f2.frequency.linearRampToValueAtTime(2400, t0 + dur);
+      f1.type = 'bandpass'; f2.type = 'bandpass'; f1.Q.value = 4.5; f2.Q.value = 6;
+      f1.frequency.setValueAtTime(780, t0); f1.frequency.linearRampToValueAtTime(430, t0 + dur);
+      f2.frequency.setValueAtTime(1180, t0); f2.frequency.linearRampToValueAtTime(2050, t0 + dur);
       const g = c.createGain();
       g.gain.setValueAtTime(0.0001, t0);
-      g.gain.linearRampToValueAtTime(1.3, t0 + 0.025);
+      g.gain.linearRampToValueAtTime(0.95, t0 + 0.035);
+      g.gain.setValueAtTime(0.78, t0 + Math.min(0.16, dur * 0.45));
       g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
       osc.connect(f1); osc.connect(f2); f1.connect(g); f2.connect(g); g.connect(c.destination);
-      osc.start(t0); osc.stop(t0 + dur + 0.03);
+      osc.start(t0); osc.stop(t0 + dur + 0.04);
     }
   }
 
