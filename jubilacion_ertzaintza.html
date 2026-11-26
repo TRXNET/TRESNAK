@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de jubilación · Ertzaintza</title>
+<link rel="icon" type="image/x-icon" href="ep.ico">
+<style>
+:root {color-scheme:dark; font-family:system-ui,sans-serif; background:#020617; color:#f1f5f9}
+* {box-sizing:border-box}
+body {margin:0; padding:clamp(1rem,5vw,4rem) 1rem}
+main {width:min(100%,56rem); margin:auto}
+header {margin-bottom:1.5rem}
+header p {color:#93c5fd; margin:0; font-weight:700}
+h1 {font-size:clamp(1.9rem,6vw,3.4rem); margin:.25rem 0; line-height:1.1}
+h2 {margin:0 0 1rem; font-size:1.2rem}
+.card {background:#0f172a; border:1px solid #334155; border-radius:20px; padding:clamp(1rem,4vw,2rem); margin-bottom:1rem; box-shadow:0 12px 32px #0003}
+.brand img {max-width:104px; margin-bottom:1rem}
+.grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr)); gap:1rem}
+label {display:grid; gap:.5rem; font-weight:650; font-size:.9rem}
+input,select,button {font:inherit; border-radius:10px; padding:.7rem .85rem; min-height:46px}
+input,select {width:100%; min-width:0; background:#1e293b; border:1px solid #64748b; color:inherit}
+button {cursor:pointer; margin-top:1.1rem; background:#34d399; border:0; color:#052e23; font-weight:750}
+button.secondary {background:#1e293b; color:#e2e8f0; border:1px solid #64748b; margin-left:.4rem}
+:focus-visible {outline:3px solid #93c5fd; outline-offset:3px}
+#date-result {color:#93c5fd; font-size:clamp(1.65rem,5vw,2.8rem); font-weight:800; margin:0}
+#notice {color:#fde68a}
+dl {margin:1rem 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); gap:.7rem}
+dl div {padding:.75rem; background:#1e293b; border-radius:10px}
+dt, .note {color:#cbd5e1; font-size:.88rem}
+dd {margin:.25rem 0 0; font-weight:650}
+a {color:#93c5fd}
+</style>
+</head>
+<body>
+<main>
+<header><p>ERTZAINTZA</p><h1>Calculadora de jubilación</h1></header>
+<section class="card">
+<div class="brand" align="left" hidden><img src="euskalpolizia txiki.jpg" alt="Euskal Polizia"></div>
+<h2>Datos para el cálculo</h2>
+<form id="calculator">
+<div class="grid">
+<label>Fecha de nacimiento<input id="birth" type="date" required></label>
+<label>Promoción<select id="promotion" required><option value="">Selecciona una promoción</option></select></label>
+<label>Días cotizados fuera de la Ertzaintza<input id="outside" type="number" min="0" step="1" value="0" required></label>
+</div>
+<button type="submit">Calcular fecha</button>
+<button type="reset" class="secondary">Limpiar</button>
+</form>
+</section>
+<section class="card" id="result" hidden aria-live="polite">
+<h2>Fecha según JUBILACION.ods</h2>
+<p id="date-result"></p>
+<p id="notice" hidden></p>
+<div id="breakdown">
+<dl id="metrics"></dl>
+</div>
+</section>
+<p class="note">El cálculo proyecta el servicio desde la salida de academia según las fórmulas del ODS. Las fechas de academia de las promociones 28 a 31 proceden de FECHAS PROMOCIONES Y CALCULOS.pdf. La fecha tiene carácter orientativo. <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724#davigesima">Ley General de la Seguridad Social · Disposición adicional vigésima</a></p>
+</main>
+<script>
+'use strict';
+
+// CALCULO_DE_EDAD_DE_JUBILACION, filas 3 a 33, columnas J, L, M y N.
+const promotions = {
+  '1': ['1982-02-01','1982-10-21','1982-01-01'],
+  '2': ['1983-03-07','1983-10-19','1983-01-01'],
+  '3': ['1983-11-14','1984-06-15','1984-01-01'],
+  '4': ['1984-07-10','1985-03-31','1985-01-01'],
+  '5': ['1985-07-08','1986-02-21','1986-01-01'],
+  '6': ['1986-05-12','1987-02-12','1987-01-01'],
+  '7': ['1987-11-18','1988-07-15','1998-01-01'],
+  '8': ['1988-11-14','1989-07-28','1989-01-01'],
+  '9': ['1990-02-26','1990-12-22','1990-01-01'],
+  '10': ['1991-09-23','1992-06-30','1992-10-01'],
+  '11A': ['1992-03-23','1992-12-22','1992-01-01'],
+  '11B': ['1992-06-01','1993-03-26','1993-01-01'],
+  '12': ['1993-04-20','1994-01-21','1994-01-01'],
+  '13': ['1994-02-07','1994-10-21','1994-01-01'],
+  '14': ['1994-11-02','1995-07-07','1995-01-01'],
+  '15': ['1995-10-02','1996-06-30','1996-01-01'],
+  '16': ['2000-02-01','2001-09-07','2001-01-01'],
+  '17': ['2002-03-04','2002-11-30','2002-06-16'],
+  '18': ['2003-06-02','2004-02-29','2004-06-16'],
+  '19': ['2005-10-03','2006-07-01','2006-03-18'],
+  '20': ['2006-10-02','2007-07-01','2007-06-25'],
+  '21': ['2007-10-29','2008-08-01','2008-01-01'],
+  '22': ['2010-03-03','2010-12-21','2010-01-01'],
+  '23': ['2011-03-01','2011-12-18','2011-01-01'],
+  '24': ['2014-12-15','2015-09-20','2015-01-01'],
+  '25': ['2015-11-16','2016-08-14','2016-01-01'],
+  '26': ['2017-10-16','2018-07-04','2018-01-01'],
+  '27': ['2018-10-08','2019-07-16','2019-01-01'],
+  // Fechas de academia de FECHAS PROMOCIONES Y CALCULOS.pdf.
+  '28': ['2019-09-09','2020-03-09','2020-01-01'],
+  '29': ['2021-02-23','2021-12-01','2021-01-01'],
+  '30': ['2022-02-09','2022-12-01','2022-01-01'],
+  '31': ['2023-01-13','2023-11-14']
+};
+
+// G27:G34, D39:D46 y H27:H34. Los límites son los seriales literales del ODS.
+const table60 = [
+  [2020,43832,44195,13507,790],
+  [2021,44198,44560,13596,792],
+  [2022,44563,44925,13687,794],
+  [2023,44928,45291,13778,796],
+  [2024,45293,45657,13870,798],
+  [2025,45659,46022,13961,800],
+  [2026,46024,46386,13960,802],
+  [2027,46387,Infinity,14052,804]
+];
+// B57:E62. En esta tabla el mínimo de cotización es inclusivo.
+const table59 = [
+  [2022,13688,709], [2023,13779,711], [2024,13870,713],
+  [2025,13961,715], [2026,14052,717], [2027,14053,719]
+];
+const day = 86400000;
+const epoch = Date.UTC(1899,11,30);
+const serial = iso => (Date.parse(iso + 'T00:00:00Z') - epoch) / day;
+const dateOf = value => new Date(epoch + value * day);
+const formatter = new Intl.DateTimeFormat('es-ES', {dateStyle:'long',timeZone:'UTC'});
+const format = value => formatter.format(dateOf(value));
+
+function addMonths(value, months) {
+  const base = dateOf(value);
+  const target = new Date(base);
+  target.setUTCDate(1);
+  target.setUTCMonth(target.getUTCMonth() + months);
+  const end = new Date(target);
+  end.setUTCMonth(end.getUTCMonth() + 1, 0);
+  target.setUTCDate(Math.min(base.getUTCDate(), end.getUTCDate()));
+  return (target.getTime() - epoch) / day;
+}
+
+function fullYears(start, end) {
+  if (end < start) return null;
+  const from = dateOf(start);
+  const to = dateOf(end);
+  const difference = to.getUTCFullYear() - from.getUTCFullYear();
+  const beforeAnniversary = to.getUTCMonth() < from.getUTCMonth() ||
+    (to.getUTCMonth() === from.getUTCMonth() && to.getUTCDate() < from.getUTCDate());
+  return difference - Number(beforeAnniversary);
+}
+
+function calculate(birth, promotion, outside) {
+  const [entry, exit] = promotions[promotion];
+  if (!entry || !exit) return {error:'El ODS no contiene las fechas de academia de esta promoción.'};
+
+  const academy = serial(exit) - serial(entry);
+  const serviceStart = serial(exit);
+  const at59 = addMonths(birth, 708);
+  const at60 = addMonths(birth, 720);
+  const years59 = fullYears(serviceStart, at59);
+  const years60 = fullYears(serviceStart, at60);
+  if (years59 === null) return {error:'El cumpleaños de los 59 es anterior a la salida de academia. La hoja no puede calcular los años completos para ese caso.'};
+
+  const total59 = at59 - serviceStart + academy + outside;
+  const total60 = at60 - serviceStart + academy + outside;
+  // C18:E19. Un año completo equivale a 73 días (365 × 0,20).
+  const reduction = Math.min(2555, years60 * 73);
+
+  const row60 = table60.find(([,first,last]) => at60 >= first && at60 <= last);
+  const e36 = row60 ? addMonths(birth, row60[4]) - reduction : 0;
+  // D27:D36. La tabla exige superar el umbral y que la fecha reducida sea anterior a A18.
+  const qualifiesAt65 = row60 && total60 > row60[3] &&
+    addMonths(birth, 780) - reduction < at60;
+  const d36 = qualifiesAt65 ? at60 : Math.max(at60, e36);
+
+  const year59 = dateOf(at59).getUTCFullYear();
+  const row59 = at59 > serial('2300-10-16') ? undefined :
+    table59.find(([year]) => year === year59 || (year === 2027 && year59 > year));
+  const qualifies59 = Boolean(row59 && years59 >= 35 && total59 >= row59[1]);
+  const d65 = qualifies59 ? at59 : 100000;
+  const useG65 = years59 >= 35 && !qualifies59;
+  const g65 = addMonths(birth, useG65 ? (row59?.[2] ?? 0) + 1 : 1000);
+
+  const result = Math.min(d36, e36, d65, g65);
+  let issue = '';
+  if (!row60) issue = 'El cumpleaños de los 60 queda fuera de los intervalos de la hoja. E36 vale 0 y el mínimo devuelve el serial 0, sin fecha utilizable.';
+  else if (result < at59 || (result < at60 && years59 < 35)) {
+    issue = 'Las fórmulas del ODS devuelven una fecha por debajo de su propio límite de edad en este caso. Revisa las fechas candidatas.';
+  } else if (!qualifies59 && result === d65) {
+    issue = 'La hoja ha devuelto la fecha auxiliar de D65.';
+  }
+  return {result, issue, entry, exit, academy, years59, years60, total59, total60,
+    reduction, qualifies59, d36, e36, d65, g65, useG65};
+}
+
+const byId = id => document.getElementById(id);
+const form = byId('calculator');
+const select = byId('promotion');
+const promotionOrder = [...Object.keys(promotions)].sort((a,b) =>
+  a.localeCompare(b, 'es', {numeric:true}));
+for (const key of promotionOrder) select.add(new Option(key, key));
+const brand = document.querySelector('.brand');
+const logo = brand.querySelector('img');
+function showLogo() { brand.hidden = false; }
+logo.addEventListener('load', showLogo);
+if (logo.complete && logo.naturalWidth) showLogo();
+
+function show(result) {
+  byId('result').hidden = false;
+  const notice = byId('notice');
+  notice.textContent = result.error || result.issue || '';
+  notice.hidden = !notice.textContent;
+  byId('date-result').textContent = result.error || result.result === 0 ? 'Sin fecha utilizable' : format(result.result);
+  byId('breakdown').hidden = Boolean(result.error);
+  if (result.error) return;
+
+  const metrics = [
+    ['Entrada en academia', format(serial(result.entry))],
+    ['Salida de academia', format(serial(result.exit))],
+    ['Días de academia', result.academy],
+    ['Años completos en la Ertzaintza a los 59', result.years59],
+    ['Años completos en la Ertzaintza a los 60', result.years60],
+    ['Días totales a los 59', result.total59],
+    ['Días totales a los 60', result.total60],
+    ['Reducción calculada a los 60', result.reduction + ' días'],
+    ['Jubilación al cumplir 59 según la tabla', result.qualifies59 ? 'Sí' : 'No']
+  ];
+  byId('metrics').replaceChildren(...metrics.map(([label,value]) => {
+    const item = document.createElement('div');
+    const term = document.createElement('dt');
+    const description = document.createElement('dd');
+    term.textContent = label;
+    description.textContent = value;
+    item.append(term,description);
+    return item;
+  }));
+}
+
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const birth = serial(byId('birth').value);
+  const outside = byId('outside').valueAsNumber;
+  if (!Number.isFinite(birth) || !Number.isSafeInteger(outside)) {
+    show({error:'Introduce una fecha válida y un número entero de días cotizados.'});
+    return;
+  }
+  show(calculate(birth,select.value,outside));
+});
+form.addEventListener('reset', () => { byId('result').hidden = true; });
+form.addEventListener('input', () => { byId('result').hidden = true; });
+</script>
+</body>
+</html>
