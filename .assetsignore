@@ -1,0 +1,8 @@
+# Worker/deployment files must never be published as static assets.
+src/
+wrangler.toml
+.assetsignore
+.dev.vars
+README-PRIVATE-DEPLOY.md
+
+

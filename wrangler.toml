@@ -1,0 +1,11 @@
+name = "tresnak-private"
+main = "src/worker.js"
+compatibility_date = "2026-11-27"
+
+# All requests must pass through the Worker before any static file is returned.
+[assets]
+directory = "."
+binding = "ASSETS"
+run_worker_first = true
+
+
